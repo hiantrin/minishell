@@ -13,6 +13,7 @@ int		to_jobs(t_job *j, int type)
 				print_job_status(i);
 			i++;
 		}
+		the_status = 0;
 	}
 	else if (j->mode == BACK)
 		return (background_of_built(type, j));
@@ -41,26 +42,39 @@ int		background_of_built(int type, t_job *j)
 	return (insert_job(j));
 }
 
-int		to_fg(t_process *process, t_job *j)
+int		check_bug_fg_bg(t_process *process, int type)
 {
-	int		i;
-	pid_t	pid;
+	int id;
+	int i;
 
 	i = 0;
+	while (process->argv[i])
+		i++;
+	if (i > 2)
+		return (put_error_fg(type));
+	if ((i == 1 && search_last() == 0) ||
+		(i != 1 && (if_numeric(process->argv[1]) == 0 ||
+		(id = atoi(process->argv[1])) > 29 ||
+		shell->job[id] == NULL)))
+		return (put_error_no_such(type));
+	if (i == 1)
+		id = search_last();
+	return (id);
+}
+
+int		to_fg(t_process *process, t_job *j)
+{
+	pid_t	pid;
+	int		id;
+
 	if (j->mode == FORE)
 	{
-		while (process->argv[i])
-			i++;
-		if (i > 2)
-			return (put_error_fg(COMMAND_FG));
-		if (i > 29 || shell->job[i] == NULL || (i == 1 && search_last() == 0))
-			return (put_error_no_such(COMMAND_FG));
-		if (i == 1)
-			i = search_last();
-		pid = shell->job[i]->pgid;
+		if ((id = check_bug_fg_bg(process, COMMAND_FG)) == -1)
+			return (-1);
+		pid = shell->job[id]->pgid;
 		if (kill(-pid, SIGCONT) < 0)
 			return (put_error_not_found(COMMAND_FG));
-		help_to_fg(pid, i);
+		help_to_fg(pid, id);
 	}
 	else if (j->mode == BACK)
 		return (background_of_built(COMMAND_FG, j));
@@ -69,27 +83,21 @@ int		to_fg(t_process *process, t_job *j)
 
 int		to_bg(t_process *process, t_job *j)
 {
-	int		i;
 	pid_t	pid;
+	int		id;
 
-	i = 0;
 	if (j->mode == FORE)
 	{
-		while (process->argv[i])
-			i++;
-		if (i > 2)
-			return (put_error_fg(COMMAND_BG));
-		if (i > 29 || shell->job[i] == NULL || (i == 1 && search_last() == 0))
-			return (put_error_no_such(COMMAND_BG));
-		if (i == 1)
-			i = search_last();
-		pid = shell->job[i]->pgid;
+		if ((id = check_bug_fg_bg(process, COMMAND_BG)) == -1)
+			return (-1);
+		pid = shell->job[id]->pgid;
 		if (kill(-pid, SIGCONT) < 0)
 			return (put_error_not_found(COMMAND_BG));
-		set_job_status(i, STATUS_CONTINUED);
-		print_job_status(i);
+		set_job_status(id, STATUS_CONTINUED);
+		print_job_status(id);
 	}
 	else if (j->mode == BACK)
 		return (background_of_built(COMMAND_BG, j));
+	the_status = 0;
 	return (-1);
 }

@@ -90,7 +90,11 @@ void	exec_command(t_job **job, t_env *list)
 		command = search_join(path, job[0]->process->argv[0], &print);
 		free_2d(path);
 		execve_help(list, &job[0], command, print);
-		free(command);
-		free(print);
+		if (command != NULL)
+			free(command);
+		else
+			the_status = 127;
+		if (print != NULL)
+			free(print);
 	}
 }

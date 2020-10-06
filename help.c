@@ -20,37 +20,6 @@ int		get_command_type(char *command)
 		return (COMMAND_EXTERNAL);
 }
 
-void	free_jobs(void)
-{
-	t_job	*j;
-	int		i;
-
-	i = 1;
-	while (i < NR_J)
-	{
-		j = shell->job[i];
-		if (j != NULL)
-			remove_job(i);
-		i++;
-	}
-}
-
-void	free_env_list(void)
-{
-	t_env	*next;
-	t_env	*list;
-
-	list = shell->env;
-	while (list != NULL)
-	{
-		free(list->name);
-		free(list->environ);
-		next = list->next;
-		free(list);
-		list = next;
-	}
-}
-
 int		to_exit(char **str, t_job *j)
 {
 	int		i;
@@ -62,10 +31,7 @@ int		to_exit(char **str, t_job *j)
 	{
 		if (i == 1)
 		{
-			free_job(j);
-			free_jobs();
-			free_env_list();
-			free(shell);
+			help_to_exit(j);
 			exit(0);
 		}
 		else
@@ -73,6 +39,7 @@ int		to_exit(char **str, t_job *j)
 	}
 	else if (j->mode == BACK)
 		return (background_of_exit(j, i));
+	the_status = -1;
 	return (-1);
 }
 

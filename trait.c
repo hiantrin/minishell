@@ -63,7 +63,7 @@ char	**make_2d_table(char *line)
 	return (tab);
 }
 
-void	trait(char *line, t_env *list)
+void	trait(char *line, t_env *list, int mode)
 {
 	t_job	*j;
 	int		job_id;
@@ -72,16 +72,19 @@ void	trait(char *line, t_env *list)
 
 	status = -1;
 	count = 0;
-	j = make_job(&line);
+	j = make_job(&line, mode);
 	if (j->process->type == COMMAND_EXTERNAL)
 		job_id = help_trait(&j, list, &count, &status);
 	else
 		job_id = trait_built(j);
 	if (status >= 0 && j->mode == FORE)
+	{
+		if (the_status != 127)
+			the_status = status;
 		remove_job(j->id);
+	}
 	else if (j->mode == BACK)
 		print_pgid_of_job(job_id);
 	if ((status < 0 && j->mode == FORE && count == 0))
 		free_job(j);
-	free(line);
 }

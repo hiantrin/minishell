@@ -6,7 +6,7 @@
 #    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/19 17:15:33 by szakaria          #+#    #+#              #
-#    Updated: 2020/10/05 23:33:28 by mac              ###   ########.fr        #
+#    Updated: 2020/10/06 19:47:36 by mac              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,12 @@ _END = \x1b[0m
 LIB = libft/libft.a
 LIB2 = GTN/get_next_line.c
 
-SRC = minishell.c GTN/get_next_line.c check.c execve.c list.c \
+SRC = minishell.c GTN/get_next_line.c trait.c execve.c list.c \
 		execve_help.c init_shell.c make_job.c wait_job.c jobs.c \
 		help.c all_command_jobs.c help_command_jobs.c help_command_jobs_v2.c \
-		help_v2.c 
+		help_v2.c  checker.c checker_v2.c checker_v3.c checker_v4.c \
+		parsing.c help_parsing.c help_parsing_v2.c help_parsing_v3.c
+		
 
 C       = gcc
 OBJ = $(SRC:.c=.o)

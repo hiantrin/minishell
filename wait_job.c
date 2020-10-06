@@ -1,6 +1,6 @@
 #include "sh.h"
 
-void	set_process_status(int pid, int status)
+void	set_process_status(pid_t pid, int status)
 {
 	int			i;
 	t_process	*process;
@@ -64,14 +64,12 @@ int		process_counter(int id)
 	return (count);
 }
 
-int		wait_for_job(int id)
+int		wait_for_job(int id, int wait_count)
 {
-	int process_count;
-	int wait_pid;
-	int wait_count;
-	int status;
+	int		process_count;
+	pid_t	wait_pid;
+	int		status;
 
-	wait_count = 0;
 	status = 0;
 	process_count = process_counter(id);
 	while (wait_count < process_count)
@@ -84,6 +82,7 @@ int		wait_for_job(int id)
 		else if (WSTOPSIG(status))
 		{
 			status = -1;
+			the_status = status;
 			set_process_status(wait_pid, STATUS_SUSPENDED);
 			if (wait_count == process_count)
 				print_job_status(id);

@@ -1,25 +1,5 @@
 #include "sh.h"
 
-int			for_or_back(char **line)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (line[0][i])
-	{
-		if (line[0][i] == '&')
-		{
-			tmp = line[0];
-			line[0] = ft_strsub(line[0], 0, i);
-			free(tmp);
-			return (BACK);
-		}
-		i++;
-	}
-	return (FORE);
-}
-
 t_process	*make_process(char *line)
 {
 	t_process	*p;
@@ -33,15 +13,12 @@ t_process	*make_process(char *line)
 	return (p);
 }
 
-t_job		*make_job(char **line)
+t_job		*make_job(char **line, int mode)
 {
 	t_job	*j;
 
 	j = (t_job *)malloc(sizeof(t_job));
-	if (for_or_back(&line[0]) == FORE)
-		j->mode = FORE;
-	else
-		j->mode = BACK;
+	j->mode = mode;
 	j->command = ft_strdup(line[0]);
 	j->pgid = -1;
 	j->process = make_process(line[0]);

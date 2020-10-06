@@ -1,12 +1,12 @@
 #include "sh.h"
 
-int		check_espace(char *str)
+int		search_no_espace(char *str)
 {
 	int i;
 
+	if (!str)
+		return (1);
 	i = 0;
-	if (ft_strlen(str) == 0)
-		return (0);
 	while (str[i])
 	{
 		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
@@ -16,9 +16,8 @@ int		check_espace(char *str)
 	return (0);
 }
 
-int		main(int argc, char **argv, char **env)
+int		help_main(int argc, char **argv, char **env)
 {
-	char	*line;
 	t_env	*list;
 
 	argc = 0;
@@ -32,15 +31,30 @@ int		main(int argc, char **argv, char **env)
 	list = create_env(env);
 	init_shell();
 	shell->env = list;
+	return (1);
+}
+
+int		main(int argc, char **argv, char **env)
+{
+	char	*line;
+
+	if (help_main(argc, argv, env) == 0)
+		return (0);
 	while (1)
 	{
 		ft_putstr("42sh> ");
 		get_next_line(0, &line);
 		check_zombie();
-		if (check_espace(line) != 0)
-			trait(line, list);
-		else
+		if (line && (search_no_espace(line) == 0 ||
+			check_if_and_and(&line, 0) == 0))
+		{
 			free(line);
+			continue;
+		}
+		if (!line || ft_strlen(line) == 0)
+			free(line);
+		else
+			semicolon_parse(line);
 	}
 	return (0);
 }

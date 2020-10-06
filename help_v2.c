@@ -38,7 +38,7 @@ int		help_trait(t_job **j, t_env *list, int *count, int *status)
 	if (j[0]->mode == FORE)
 	{
 		tcsetpgrp(0, j[0]->pgid);
-		status[0] = wait_for_job(j[0]->id);
+		status[0] = wait_for_job(j[0]->id, 0);
 		signal(SIGTTOU, SIG_IGN);
 		tcsetpgrp(0, getpid());
 		signal(SIGTTOU, SIG_DFL);
