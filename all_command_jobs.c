@@ -1,45 +1,19 @@
 #include "sh.h"
 
-int		to_jobs(t_job *j, int type)
+int		to_jobs(t_job *j)
 {
 	int		i;
 
 	i = 1;
+	while (i < NR_J)
+	{
+		if (shell->job[i] != NULL)
+			print_job_status(i);
+		i++;
+	}
 	if (j->mode == FORE)
-	{
-		while (i < NR_J)
-		{
-			if (shell->job[i] != NULL)
-				print_job_status(i);
-			i++;
-		}
 		the_status = 0;
-	}
-	else if (j->mode == BACK)
-		return (background_of_built(type, j));
-	return (-1);
-}
-
-int		background_of_built(int type, t_job *j)
-{
-	pid_t	pid;
-
-	pid = 0;
-	pid = fork();
-	if (pid == 0)
-		help_back_of_built(type, j);
-	else
-	{
-		j->process->pid = pid;
-		if (j->pgid > 0)
-			setpgid(pid, j->pgid);
-		else
-		{
-			j->pgid = pid;
-			setpgid(pid, j->pgid);
-		}
-	}
-	return (insert_job(j));
+	return (0);
 }
 
 int		check_bug_fg_bg(t_process *process, int type)
@@ -62,42 +36,43 @@ int		check_bug_fg_bg(t_process *process, int type)
 	return (id);
 }
 
-int		to_fg(t_process *process, t_job *j)
+int		to_fg(t_process **process, t_job **j)
 {
 	pid_t	pid;
 	int		id;
 
-	if (j->mode == FORE)
+	if (j[0]->mode == FORE)
 	{
-		if ((id = check_bug_fg_bg(process, COMMAND_FG)) == -1)
+		if ((id = check_bug_fg_bg(process[0], COMMAND_FG)) == -1)
 			return (-1);
 		pid = shell->job[id]->pgid;
 		if (kill(-pid, SIGCONT) < 0)
 			return (put_error_not_found(COMMAND_FG));
 		help_to_fg(pid, id);
+		the_status = 0;
 	}
-	else if (j->mode == BACK)
-		return (background_of_built(COMMAND_FG, j));
+	else if (j[0]->mode == BACK)
+		ft_putendl_fd("42sh: fg: no job control", process[0]->errorput);
 	return (-1);
 }
 
-int		to_bg(t_process *process, t_job *j)
+int		to_bg(t_process **process, t_job **j)
 {
 	pid_t	pid;
 	int		id;
 
-	if (j->mode == FORE)
+	if (j[0]->mode == FORE)
 	{
-		if ((id = check_bug_fg_bg(process, COMMAND_BG)) == -1)
+		if ((id = check_bug_fg_bg(process[0], COMMAND_BG)) == -1)
 			return (-1);
 		pid = shell->job[id]->pgid;
 		if (kill(-pid, SIGCONT) < 0)
 			return (put_error_not_found(COMMAND_BG));
 		set_job_status(id, STATUS_CONTINUED);
 		print_job_status(id);
+		the_status = 0;
 	}
-	else if (j->mode == BACK)
-		return (background_of_built(COMMAND_BG, j));
-	the_status = 0;
+	else if (j[0]->mode == BACK)
+		ft_putendl_fd("42sh: bg: no job control", process[0]->errorput);
 	return (-1);
 }

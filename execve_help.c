@@ -14,9 +14,9 @@ char	*help_search_join(char *str, DIR *dir, char **print)
 	}
 }
 
-void	help_execve_help(t_job **job)
+void	help_execve_help(t_job **job, t_process **process)
 {
-	job[0]->process->pid = getpid();
+	process[0]->pid = getpid();
 	if (job[0]->pgid > 0)
 		setpgid(0, job[0]->pgid);
 	else
@@ -32,23 +32,25 @@ void	help_execve_help(t_job **job)
 	signal(SIGCHLD, SIG_DFL);
 }
 
-void	execve_help(t_env *list, t_job **job, char *command, char *print)
+void	execve_help(t_process **process, t_job **job,
+		char *command, char *print)
 {
 	pid_t	pid;
 	char	**tab;
 
-	tab = list_to_tab(list);
+	tab = list_to_tab(shell->env);
 	pid = fork();
 	if (pid == 0)
 	{
-		help_execve_help(&job[0]);
-		execve(command, job[0]->process->argv, tab);
+		pipe_execve(process[0], job[0]);
+		help_execve_help(&job[0], &process[0]);
+		execve(command, process[0]->argv, tab);
 		ft_putendl(print);
 		exit(0);
 	}
 	else
 	{
-		job[0]->process->pid = pid;
+		process[0]->pid = pid;
 		if (job[0]->pgid > 0)
 			setpgid(pid, job[0]->pgid);
 		else

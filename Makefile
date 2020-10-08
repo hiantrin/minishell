@@ -6,7 +6,7 @@
 #    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/19 17:15:33 by szakaria          #+#    #+#              #
-#    Updated: 2020/10/06 19:47:36 by mac              ###   ########.fr        #
+#    Updated: 2020/10/08 01:12:05 by mac              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,11 @@ SRC = minishell.c GTN/get_next_line.c trait.c execve.c list.c \
 		execve_help.c init_shell.c make_job.c wait_job.c jobs.c \
 		help.c all_command_jobs.c help_command_jobs.c help_command_jobs_v2.c \
 		help_v2.c  checker.c checker_v2.c checker_v3.c checker_v4.c \
-		parsing.c help_parsing.c help_parsing_v2.c help_parsing_v3.c
+		parsing.c help_parsing.c help_parsing_v2.c help_parsing_v3.c \
+		trait_pipe.c redirect.c redirect_v2.c replace_with_env.c make_home.c \
+		slash_quote.c redirect_help.c redirect_v3.c parse_the_redirect.c \
+		redirect_help_v2.c help_trait_and.c get_path.c filter_command.c \
+		built_back_fore.c built_env_echo.c mini_type.c
 		
 
 C       = gcc

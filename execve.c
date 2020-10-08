@@ -76,20 +76,20 @@ char	*search_env(t_env *list)
 	return (NULL);
 }
 
-void	exec_command(t_job **job, t_env *list)
+void	exec_command(t_job **job, t_process **process)
 {
 	char	**path;
 	char	*command;
 	char	*print;
 
-	job[0]->process->status = STATUS_RUNNING;
+	process[0]->status = STATUS_DONE;
 	print = NULL;
-	if (search_env(list))
+	if (search_env(shell->env))
 	{
-		path = ft_strsplit(search_env(list), ':');
-		command = search_join(path, job[0]->process->argv[0], &print);
+		path = ft_strsplit(search_env(shell->env), ':');
+		command = search_join(path, process[0]->argv[0], &print);
 		free_2d(path);
-		execve_help(list, &job[0], command, print);
+		execve_help(&process[0], &job[0], command, print);
 		if (command != NULL)
 			free(command);
 		else

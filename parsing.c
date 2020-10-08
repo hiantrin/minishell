@@ -11,9 +11,9 @@ void	jobs_parse(char *line)
 		if (check_line(the_jobs[i]))
 		{
 			if (the_jobs[i + 1] != NULL)
-				trait(the_jobs[i], shell->env, BACK);
+				trait(the_jobs[i], BACK);
 			else
-				trait(the_jobs[i], shell->env, FORE);
+				trait(the_jobs[i], FORE);
 		}
 		i++;
 	}

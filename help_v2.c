@@ -28,20 +28,32 @@ void	free_job(t_job *job)
 	free(job);
 }
 
-int		help_trait(t_job **j, t_env *list, int *count, int *status)
+void	help_trait(t_job **j, t_process **process, int *count)
 {
-	int		job_id;
-
 	count[0]++;
-	exec_command(&j[0], list);
-	job_id = insert_job(j[0]);
-	if (j[0]->mode == FORE)
-	{
-		tcsetpgrp(0, j[0]->pgid);
-		status[0] = wait_for_job(j[0]->id, 0);
-		signal(SIGTTOU, SIG_IGN);
-		tcsetpgrp(0, getpid());
-		signal(SIGTTOU, SIG_DFL);
-	}
-	return (job_id);
+	exec_command(&j[0], &process[0]);
+}
+
+char	*concate(char *path, char *str)
+{
+	char	*new;
+	char	*ptr;
+
+	new = ft_strjoin(path, "/");
+	ptr = new;
+	new = ft_strjoin(new, str);
+	free(ptr);
+	return (new);
+}
+
+int		h_f_f(char *file2, t_process *process, int ifnot)
+{
+	if (atoi(file2) == 0)
+		return (process->input);
+	else if (atoi(file2) == 1)
+		return (process->output);
+	else if (atoi(file2) == 2)
+		return (process->errorput);
+	else
+		return (ifnot);
 }

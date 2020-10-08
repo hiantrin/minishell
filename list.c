@@ -40,6 +40,7 @@ t_env	*create_next(char *environ)
 		env = (t_env *)malloc(sizeof(t_env));
 		env->name = get_name(environ);
 		env->environ = get_environ(environ);
+		env->flag = 0;
 		env->next = NULL;
 	}
 	return (env);
