@@ -28,42 +28,48 @@ int		get_command_type(char *command)
 		return (COMMAND_EXTERNAL);
 }
 
-int		to_exit(t_process **process, t_job **j)
+int		to_exit(t_process *process, t_job *j)
 {
 	int		i;
 
 	i = 0;
-	while (process[0]->argv[i])
+	while (process->argv[i])
 		i++;
-	if (i == 1 && j[0]->mode == FORE)
+	if (i == 1 && j->mode == FORE)
 	{
-		help_to_exit(j[0]);
+		help_to_exit(j);
 		exit(0);
 	}
 	else if (i != 1)
-		ft_putendl_fd("exit: too many arguments", process[0]->errorput);
+		ft_putendl_fd("exit: too many arguments", process->errorput);
 	the_status = -1;
 	return (-1);
 }
 
-int		trait_built(t_job **j, t_process **process)
+int		trait_built(t_job *j, t_process *process)
 {
-	if (process[0]->type == COMMAND_EXIT)
-		to_exit(&process[0], j);
-	else if (process[0]->type == COMMAND_JOBS)
-		to_jobs(j[0]);
-	else if (process[0]->type == COMMAND_FG)
-		to_fg(&process[0], &j[0]);
-	else if (process[0]->type == COMMAND_BG)
-		to_bg(&process[0], &j[0]);
-	else if (process[0]->type == COMMAND_ENV)
-		to_env(process[0]);
-	else if (process[0]->type == COMMAND_TYPE)
-		to_type(process[0]);
-	else if (process[0]->type == COMMAND_ECHO)
-		to_echo(process[0]);
-	else if (process[0]->type == COMMAND_SET)
-		to_set(process[0]);
+	if (process->type == COMMAND_EXIT)
+		to_exit(process, j);
+	else if (process->type == COMMAND_JOBS)
+		to_jobs(j);
+	else if (process->type == COMMAND_FG)
+		to_fg(process, j);
+	else if (process->type == COMMAND_BG)
+		to_bg(process, j);
+	else if (process->type == COMMAND_ENV)
+		to_env(process);
+	else if (process->type == COMMAND_TYPE)
+		to_type(process);
+	else if (process->type == COMMAND_ECHO)
+		to_echo(process);
+	else if (process->type == COMMAND_SET)
+		to_set(process);
+	else if (process->type == COMMAND_UNSET)
+		to_unset(process, j);
+	else if (process->type == COMMAND_EXPORT)
+		to_export(process, j, process->argv);
+	else if (process->type == COMMAND_CD)
+		to_cd(process, j);
 	return (0);
 }
 

@@ -36,14 +36,14 @@ int		check_bug_fg_bg(t_process *process, int type)
 	return (id);
 }
 
-int		to_fg(t_process **process, t_job **j)
+int		to_fg(t_process *process, t_job *j)
 {
 	pid_t	pid;
 	int		id;
 
-	if (j[0]->mode == FORE)
+	if (j->mode == FORE)
 	{
-		if ((id = check_bug_fg_bg(process[0], COMMAND_FG)) == -1)
+		if ((id = check_bug_fg_bg(process, COMMAND_FG)) == -1)
 			return (-1);
 		pid = shell->job[id]->pgid;
 		if (kill(-pid, SIGCONT) < 0)
@@ -51,19 +51,22 @@ int		to_fg(t_process **process, t_job **j)
 		help_to_fg(pid, id);
 		the_status = 0;
 	}
-	else if (j[0]->mode == BACK)
-		ft_putendl_fd("42sh: fg: no job control", process[0]->errorput);
-	return (-1);
+	else if (j->mode == BACK)
+	{
+		ft_putendl_fd("42sh: fg: no job control", process->errorput);
+		the_status = -1;
+	}
+	return (0);
 }
 
-int		to_bg(t_process **process, t_job **j)
+int		to_bg(t_process *process, t_job *j)
 {
 	pid_t	pid;
 	int		id;
 
-	if (j[0]->mode == FORE)
+	if (j->mode == FORE)
 	{
-		if ((id = check_bug_fg_bg(process[0], COMMAND_BG)) == -1)
+		if ((id = check_bug_fg_bg(process, COMMAND_BG)) == -1)
 			return (-1);
 		pid = shell->job[id]->pgid;
 		if (kill(-pid, SIGCONT) < 0)
@@ -72,7 +75,10 @@ int		to_bg(t_process **process, t_job **j)
 		print_job_status(id);
 		the_status = 0;
 	}
-	else if (j[0]->mode == BACK)
-		ft_putendl_fd("42sh: bg: no job control", process[0]->errorput);
+	else if (j->mode == BACK)
+	{
+		ft_putendl_fd("42sh: bg: no job control", process->errorput);
+		the_status = -1;
+	}
 	return (-1);
 }

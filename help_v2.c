@@ -5,9 +5,12 @@ void	free_2d(char **str)
 	int i;
 
 	i = 0;
-	while (str[i])
-		free(str[i++]);
-	free(str);
+	if (str)
+	{
+		while (str[i])
+			free(str[i++]);
+		free(str);
+	}
 }
 
 void	free_job(t_job *job)

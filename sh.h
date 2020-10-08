@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/08 01:28:03 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/08 17:47:32 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int			the_status;
 t_job			*make_job(char *line, int mode);
 
 t_env			*create_env(char **environ);
+t_env			*create_next(char *environ);
 
 void			trait(char *line, int mode);
 void			init_shell();
@@ -147,6 +148,14 @@ void			back_or_fore(t_job **job, t_process **process);
 void			to_type(t_process *process);
 void			to_echo(t_process *process);
 void			to_set(t_process *process);
+void			to_unset(t_process *process, t_job *job);
+void			to_export(t_process *process, t_job *job, char **argv);
+void			add_pwd(t_process *process, t_job *job, char *str);
+void			to_cd(t_process *process, t_job *job);
+void			add_pwd(t_process *process, t_job *job, char *str);
+int				test_dir(char *argv, t_process *process);
+void			print_error_jump_options(char c, int error);
+void			norme_to_cd(t_process *process, t_job *job, char **argv, int i);
 
 char			*help_search_join(char *str, DIR *dir, char **print);
 char			**make_2d_table(char *line);
@@ -167,18 +176,22 @@ char			*check_env(char *str, t_env *env);
 char			**mini_filter_h(char **str, t_env *env);
 char			*check_if_exist(char *command, char **env);
 char			*search_env(t_env *list);
+char			*get_name(char *environ);
+char			*get_environ(char *environ);
+char			*check(char *str);
+char			*search_home(t_env *list);
 
 int				insert_job(t_job *job);
 int 			wait_for_job(int id, int wait_count);
 int				get_command_type(char *command);
 int				to_jobs(t_job *j);
-int				to_fg(t_process **process, t_job **j);
-int				to_bg(t_process **process, t_job **j);
+int				to_fg(t_process *process, t_job *j);
+int				to_bg(t_process *process, t_job *j);
 int				put_error_not_found(int type);
 int				search_last(void);
 int				put_error_no_such(int type);
 int				put_error_fg(int type);
-int				trait_built(t_job **j, t_process **process);
+int				trait_built(t_job *j, t_process *process);
 int				search_no_espace(char *str);
 int				print_and_of_number(char s, int count);
 int				check_if_and_and(char **str, int i);

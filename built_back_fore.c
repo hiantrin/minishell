@@ -10,7 +10,7 @@ void	help_back_built(t_job **job, t_process **process)
 		job[0]->pgid = process[0]->pid;
 		setpgid(0, job[0]->pgid);
 	}
-	trait_built(&job[0], &process[0]);
+	trait_built(job[0], process[0]);
 	exit(0);
 }
 
@@ -37,5 +37,5 @@ void	back_or_fore(t_job **job, t_process **process)
 		}
 	}
 	else
-		trait_built(&job[0], &process[0]);
+		trait_built(job[0], process[0]);
 }
