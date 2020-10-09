@@ -29,7 +29,6 @@ void	or_or_parse(char *line)
 	or_or = split_and_and(line, '|');
 	while (or_or[i])
 	{
-		the_status = 0;
 		if (check_line(or_or[i]))
 		{
 			jobs_parse(or_or[i]);
@@ -50,7 +49,6 @@ void	and_and_parse(char *line)
 	and_and = split_and_and(line, '&');
 	while (and_and[i])
 	{
-		the_status = 0;
 		if (check_line(and_and[i]))
 		{
 			or_or_parse(and_and[i]);

@@ -44,12 +44,12 @@ void	free_jobs(void)
 	}
 }
 
-void	free_env_list(void)
+void	free_env_list(t_env *env)
 {
 	t_env	*next;
 	t_env	*list;
 
-	list = shell->env;
+	list = env;
 	while (list != NULL)
 	{
 		free(list->name);
@@ -64,7 +64,7 @@ void	help_to_exit(t_job *job)
 {
 	free_job(job);
 	free_jobs();
-	free_env_list();
+	free_env_list(shell->env);
 	free_2d(STATUS_STRING);
 	free(shell);
 	free_2d(semicolon);

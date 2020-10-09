@@ -2,22 +2,15 @@
 
 char	*check_env(char *str, t_env *env)
 {
-	char	*new;
-
-	new = ft_strdup("_status");
 	if (ft_strcmp(str, "?") == 0)
-		str = new;
+		return (ft_itoa(the_status));
 	while (env)
 	{
 		if (ft_strcmp(str, env->name) == 0)
-		{
-			free(new);
 			return (ft_strdup(env->environ));
-		}
 		else
 			env = env->next;
 	}
-	free(new);
 	return (NULL);
 }
 

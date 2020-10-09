@@ -6,10 +6,9 @@ t_process	*make_process(char *line)
 
 	p = (t_process *)malloc(sizeof(t_process));
 	p->command = ft_strdup(line);
-	p->argv = make_2d_table(line);
+	p->argv = NULL;
 	p->next = NULL;
 	p->pid = -1;
-	p->type = get_command_type(p->argv[0]);
 	p->input = 0;
 	p->output = 1;
 	p->errorput = 2;

@@ -28,18 +28,18 @@ int		check_set(char *new)
 	return (1);
 }
 
-void	help_setenv(char *command)
+void	help_setenv(char *command, t_env **list)
 {
 	t_env	*next;
 	char	*str;
 	t_env	*head;
 
-	head = shell->env;
+	head = list[0];
 	str = get_name(command);
 	while (head && head->next != NULL && ft_strcmp(head->name, str) != 0)
 		head = head->next;
 	if (head == NULL)
-		shell->env = create_next(command);
+		list[0] = create_next(command);
 	else if (head && ft_strcmp(head->name, str) != 0)
 	{
 		next = create_next(command);
@@ -69,7 +69,7 @@ void	to_export(t_process *process, t_job *job, char **argv)
 		}
 		else if (job->mode == FORE &&
 			ft_strchr(argv[i], '=') != NULL)
-			help_setenv(argv[i]);
+			help_setenv(argv[i], &shell->env);
 		i++;
 	}
 }

@@ -72,17 +72,13 @@ void	help_trait_v2(t_job *j, int count)
 	if ((count == 0 && j->mode == BACK) || count != 0)
 		job_id = insert_job(j);
 	if (j->mode == FORE && count != 0)
-	{
-		tcsetpgrp(0, j->pgid);
-		status = wait_for_job(j->id, 0);
-		signal(SIGTTOU, SIG_IGN);
-		tcsetpgrp(0, getpid());
-		signal(SIGTTOU, SIG_DFL);
-	}
+		help_to_wait(j, &status);
 	if (status >= 0 && j->mode == FORE)
 	{
 		if (the_status != 127)
 			the_status = status;
+		if (the_status != 127 && the_status > 0)
+			the_status = 1;
 		remove_job(j->id);
 	}
 	else if (j->mode == BACK)
@@ -107,13 +103,7 @@ void	trait(char *line, int mode)
 		h = redirect(&process);
 		if (h == 1 && search_no_espace(process->command) == 1
 			&& (process->argv = mini_filter_h(&(process->command), shell->env)))
-		{
-			process->type = get_command_type(process->argv[0]);
-			if (process->type == COMMAND_EXTERNAL)
-				help_trait(&j, &process, &count);
-			else
-				back_or_fore(&j, &process);
-		}
+			final_help(&process, &j, &count);
 		close_pipe(process, j);
 		process = process->next;
 	}

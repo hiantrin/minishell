@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/08 17:47:32 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/09 02:55:12 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,12 @@ void			add_pwd(t_process *process, t_job *job, char *str);
 int				test_dir(char *argv, t_process *process);
 void			print_error_jump_options(char c, int error);
 void			norme_to_cd(t_process *process, t_job *job, char **argv, int i);
+void			help_setenv(char *command, t_env **list);
+void			free_env_list(t_env *env);
+void			help_unsetenv(char *command);
+void			manage_variables2(t_env *save);
+void			help_to_wait(t_job *j, int *status);
+void			final_help(t_process **process, t_job **j, int *count);
 
 char			*help_search_join(char *str, DIR *dir, char **print);
 char			**make_2d_table(char *line);
@@ -180,6 +186,9 @@ char			*get_name(char *environ);
 char			*get_environ(char *environ);
 char			*check(char *str);
 char			*search_home(t_env *list);
+char			**manage_variables(char **argv, t_env **env);
+char			**create_new_argv(char **argv, int i);
+char			**help_re_null(t_env *save, t_env **env, char **argv);
 
 int				insert_job(t_job *job);
 int 			wait_for_job(int id, int wait_count);
@@ -218,5 +227,6 @@ int				print_n_x(char *file, int pipe);
 int				print_i_d(char *file, int pipe);
 int				count_replace_env(char *line, int i, char c);
 int				h_f_f(char *file2, t_process *process, int ifnot);
+int				check_set(char *new);
 
 #endif

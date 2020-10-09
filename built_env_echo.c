@@ -7,7 +7,7 @@ void	print_env(int output)
 	env = shell->env;
 	while (env)
 	{
-		if (env->flag == 0)
+		if (env->flag != 1)
 		{
 			ft_putstr_fd(env->name, output);
 			ft_putchar_fd('=', output);
