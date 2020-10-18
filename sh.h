@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/18 04:21:28 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/18 17:40:35 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,19 @@ char		**or_or;
 char		**the_jobs;
 int			the_status;
 char		*if_exit;
-char		*signalmsg;
+
+static char *signalmsg[] = {
+		"Done", "Hangup", "Interrupt", "Quit", "Illegal instruction",
+		"Trace/breakpoint trap", "Aborted", "Bus error",
+		"Floating point exception", "Killed", "User defined signal 1",
+		"Segmentation fault", "User defined signal 2", "Broken pipe",
+		"Alarm clock", "Terminated", "Stack fault", "Child exited", "suspended",
+		"Stopped (signal)", "Stopped", "Stopped (tty input)",
+		"Stopped (tty output)", "Urgent I/O condition",
+		"CPU time limit exceeded", "File size limit exceeded",
+		"Virtual timer expired", "Profiling timer expired", "Window changed",
+		"I/O possible", "Power failure"
+	};
 
 
 t_job			*make_job(char *line, int mode);

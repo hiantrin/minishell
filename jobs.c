@@ -57,9 +57,11 @@ void	check_zombie(void)
 		if (WIFEXITED(status))
 			set_process_status(pid, STATUS_DONE);
 		else if (WIFSTOPPED(status))
-			set_process_status(pid, STATUS_SUSPENDED);
+			set_process_status(pid, STATUS_SUSPENDED, status);
+		else if (WIFSIGNALED(status))
+			set_process_status(pid, STATUS_DONE, status);
 		else if (WIFCONTINUED(status))
-			set_process_status(pid, STATUS_CONTINUED);
+			set_process_status(pid, STATUS_CONTINUED, status);
 		job_id = get_job_id_by_pid(pid);
 		if (job_id > 0 && is_job_completed(job_id) == 1)
 		{
