@@ -31,16 +31,23 @@ int		get_command_type(char *command)
 int		to_exit(t_process *process, t_job *j)
 {
 	int		i;
+	int		e;
 
 	i = 0;
 	while (process->argv[i])
 		i++;
-	if (i == 1 && j->mode == FORE)
+	if (i < 3 && j->mode == FORE && process->next == NULL)
 	{
-		help_to_exit(j);
-		exit(0);
+		e = 0;
+		if (i == 2)
+			e = print_exit_error(process->argv[1]);
+		if (if_exit == NULL && e != -1)
+		{
+			help_to_exit(j);
+			exit(e);
+		}
 	}
-	else if (i != 1)
+	else if (i > 2)
 		ft_putendl_fd("exit: too many arguments", process->errorput);
 	the_status = -1;
 	return (-1);

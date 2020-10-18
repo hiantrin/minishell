@@ -16,6 +16,7 @@ void	init_shell(void)
 	the_jobs = NULL;
 	or_or = NULL;
 	and_and = NULL;
+	if_exit = NULL;
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	i = 0;
 	while (i < NR_J)

@@ -96,5 +96,7 @@ void	exec_command(t_job **job, t_process **process)
 			the_status = 127;
 		if (print != NULL)
 			free(print);
+		else
+			process[0]->status = STATUS_RUNNING;
 	}
 }

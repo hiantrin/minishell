@@ -21,7 +21,7 @@ void	jobs_parse(char *line)
 	the_jobs = NULL;
 }
 
-void	or_or_parse(char *line)
+void	or_or_parse(char *line, int fo)
 {
 	int i;
 
@@ -31,7 +31,9 @@ void	or_or_parse(char *line)
 	{
 		if (check_line(or_or[i]))
 		{
-			jobs_parse(or_or[i]);
+			if (fo == 0 || (i == 0 && the_status == 0)
+				|| (i != 0 && the_status != 0))
+				jobs_parse(or_or[i]);
 			if (the_status == 0)
 				break ;
 		}
@@ -50,11 +52,7 @@ void	and_and_parse(char *line)
 	while (and_and[i])
 	{
 		if (check_line(and_and[i]))
-		{
-			or_or_parse(and_and[i]);
-			if (the_status != 0)
-				break ;
-		}
+			or_or_parse(and_and[i], i);
 		i++;
 	}
 	free_2d(and_and);
@@ -70,6 +68,7 @@ void	semicolon_parse(char *line)
 	free(line);
 	while (semicolon[i])
 	{
+		if_exit = semicolon[i + 1];
 		if (check_line(semicolon[i]))
 			and_and_parse(semicolon[i]);
 		i++;

@@ -100,6 +100,7 @@ void	trait(char *line, int mode)
 	while (process)
 	{
 		make_the_put(&process, &j);
+
 		h = redirect(&process);
 		if (h == 1 && search_no_espace(process->command) == 1
 			&& (process->argv = mini_filter_h(&(process->command), shell->env)))

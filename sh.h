@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/09 02:55:12 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/18 04:21:28 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ char		**and_and;
 char		**or_or;
 char		**the_jobs;
 int			the_status;
+char		*if_exit;
+char		*signalmsg;
+
 
 t_job			*make_job(char *line, int mode);
 
@@ -162,6 +165,7 @@ void			help_unsetenv(char *command);
 void			manage_variables2(t_env *save);
 void			help_to_wait(t_job *j, int *status);
 void			final_help(t_process **process, t_job **j, int *count);
+int				print_exit_error(char *str);
 
 char			*help_search_join(char *str, DIR *dir, char **print);
 char			**make_2d_table(char *line);
@@ -228,5 +232,8 @@ int				print_i_d(char *file, int pipe);
 int				count_replace_env(char *line, int i, char c);
 int				h_f_f(char *file2, t_process *process, int ifnot);
 int				check_set(char *new);
+int				check_if_is_num(char *file);
+int				print_exit_error(char *str);
+int				if_numeric_or_percent(char *str);
 
 #endif

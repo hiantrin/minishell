@@ -43,7 +43,7 @@ void	to_echo(t_process *process)
 	i = 1;
 	while (process->argv[i])
 	{
-		if (process->output != 0)
+		if (process->output > 0)
 		{
 			ft_putstr_fd(process->argv[i], process->output);
 			if (process->argv[i + 1] != NULL)
@@ -51,9 +51,14 @@ void	to_echo(t_process *process)
 		}
 		i++;
 	}
-	if (process->output != 0)
+	if (process->output > 0)
 		ft_putstr_fd("\n", process->output);
 	the_status = 0;
+	if (process->output == -1)
+	{
+		ft_putendl_fd("42sh: echo: write error: Bad file descriptor", process->errorput);
+		the_status = -1;
+	}
 }
 
 void	print_set(int output)

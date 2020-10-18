@@ -27,9 +27,7 @@ int		check_bug_fg_bg(t_process *process, int type)
 	if (i > 2)
 		return (put_error_fg(type));
 	if ((i == 1 && search_last() == 0) ||
-		(i != 1 && (if_numeric(process->argv[1]) == 0 ||
-		(id = atoi(process->argv[1])) > 29 ||
-		shell->job[id] == NULL)))
+		(i != 1 && (id = if_numeric_or_percent(process->argv[1])) == 0))
 		return (put_error_no_such(type));
 	if (i == 1)
 		id = search_last();

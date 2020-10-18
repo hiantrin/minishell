@@ -78,13 +78,16 @@ int		wait_for_job(int id, int wait_count)
 		if (WIFEXITED(status))
 			set_process_status(wait_pid, STATUS_DONE);
 		else if (WIFSIGNALED(status))
+		{
+			printf("-------->%d\n", WTERMSIG(status));
 			set_process_status(wait_pid, STATUS_TERMINATED);
+		}
 		else if (WSTOPSIG(status))
 		{
 			status = -1;
 			the_status = status;
 			set_process_status(wait_pid, STATUS_SUSPENDED);
-			if (wait_count == process_count)
+			if (wait_count == (process_count - 1))
 				print_job_status(id);
 		}
 		wait_count++;

@@ -13,8 +13,10 @@ int		print_error_num(char *file, int error)
 int		help_type_one(char *file, int error)
 {
 	struct stat	l;
+	int i;
 
-	close(open(file, O_CREAT, 0644));
+	i = open(file, O_CREAT, 0644);
+	close(i);
 	lstat(file, &l);
 	if (S_ISDIR(l.st_mode))
 		return (print_i_d(file, error));

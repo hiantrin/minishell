@@ -24,3 +24,38 @@ void	final_help(t_process **process, t_job **j, int *count)
 	}
 	manage_variables2(save);
 }
+
+int		print_exit_error(char *str)
+{
+	if (check_if_is_num(str) == 0)
+	{
+		ft_putstr("42sh: exit: ");
+		ft_putstr(str);
+		ft_putendl(" : numeric argument required");
+		return (-1);
+	}
+	else
+		return (atoi(str));
+}
+
+int		if_numeric_or_percent(char *str)
+{
+	int i;
+	int id;
+
+	i = 0;
+	while (str[i] == '%')
+		i++;
+	if (str[i] == '\0' && search_last() == 0)
+		return (0);
+	if (str[i] == '\0' && search_last() != 0)
+		return (search_last());
+	if (if_numeric(&str[i]) == 0 || (id = atoi(&str[i])) > 29 || shell->job[id] == NULL)
+		return (0);
+	else
+		return (id);
+}
+
+// (if_numeric(process->argv[1]) == 0 ||
+// 		(id = atoi(process->argv[1])) > 29 ||
+// 		shell->job[id] == NULL)))
