@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_type.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:53:03 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/08 01:31:37 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/19 01:17:53 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	to_type(t_process *process)
 			ft_putstr_fd("42sh: type: ", process->errorput);
 			ft_putstr_fd(process->argv[i], process->errorput);
 			ft_putendl_fd(": not found", process->errorput);
-			the_status = -1;
+			the_status = 1;
 		}
 	}
 }

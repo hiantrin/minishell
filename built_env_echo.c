@@ -27,7 +27,7 @@ void	to_env(t_process *process)
 	if (i > 1)
 	{
 		ft_putendl_fd("env: too many arguments", process->errorput);
-		the_status = -1;
+		the_status = 1;
 	}
 	else
 	{
@@ -57,7 +57,7 @@ void	to_echo(t_process *process)
 	if (process->output == -1)
 	{
 		ft_putendl_fd("42sh: echo: write error: Bad file descriptor", process->errorput);
-		the_status = -1;
+		the_status = 1;
 	}
 }
 
@@ -85,7 +85,7 @@ void	to_set(t_process *process)
 	if (i > 1)
 	{
 		ft_putendl_fd("set: too many arguments", process->errorput);
-		the_status = -1;
+		the_status = 1;
 	}
 	else
 	{

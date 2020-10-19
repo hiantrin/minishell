@@ -65,7 +65,7 @@ void	to_export(t_process *process, t_job *job, char **argv)
 			ft_putstr_fd("minishell: setenv: `", process->errorput);
 			ft_putstr_fd(argv[i], process->errorput);
 			ft_putendl_fd("': not a valid identifier", process->errorput);
-			the_status = -1;
+			the_status = 1;
 		}
 		else if (job->mode == FORE &&
 			ft_strchr(argv[i], '=') != NULL)

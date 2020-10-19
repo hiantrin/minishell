@@ -1,6 +1,6 @@
 #include "sh.h"
 
-void	set_process_status(pid_t pid, int status, int type)
+void	set_process_status(pid_t pid, int status)
 {
 	int			i;
 	t_process	*process;
@@ -38,7 +38,10 @@ void	print_job_status(int id)
 		ft_putchar('\t');
 		ft_putnbr(process->pid);
 		ft_putchar('\t');
-		ft_putstr(STATUS_STRING[process->status]);
+		if (shell->job[id]->process->signal == NULL)
+			ft_putstr(STATUS_STRING[process->status]);
+		else
+			ft_putstr(process->signal);
 		ft_putchar('\t');
 		ft_putstr(process->command);
 		if (process->next != NULL)
@@ -80,10 +83,13 @@ int		wait_for_job(int id, int wait_count)
 		else if (WIFSIGNALED(status))
 		{
 			set_process_status(wait_pid, STATUS_TERMINATED);
-			ft_putstr(signalmsg[WTERMSIG(status)]);
-			ft_putstr(": ");
-			ft_putnbr(WTERMSIG(status));
-			ft_putchar('\n');
+			if (WTERMSIG(status) != 2 && WTERMSIG(status) != 13)
+			{
+				ft_putstr(signalmsg[WTERMSIG(status)]);
+				ft_putstr(": ");
+				ft_putnbr(WTERMSIG(status));
+				ft_putchar('\n');
+			}
 		}
 		else if (WSTOPSIG(status))
 		{

@@ -78,7 +78,7 @@ int		help_to_parse(char **line, int *j, t_process **process)
 		return (print_error_num(file, process[0]->errorput));
 	if (parse_to_two(file, out, type, &process[0]) == 0)
 	{
-		the_status = -1;
+		the_status = 1;
 		return (0);
 	}
 	join_with_anything(&line[0], a, j[0]);

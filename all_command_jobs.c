@@ -52,7 +52,7 @@ int		to_fg(t_process *process, t_job *j)
 	else if (j->mode == BACK)
 	{
 		ft_putendl_fd("42sh: fg: no job control", process->errorput);
-		the_status = -1;
+		the_status = 1;
 	}
 	return (0);
 }
@@ -76,7 +76,7 @@ int		to_bg(t_process *process, t_job *j)
 	else if (j->mode == BACK)
 	{
 		ft_putendl_fd("42sh: bg: no job control", process->errorput);
-		the_status = -1;
+		the_status = 1;
 	}
 	return (-1);
 }

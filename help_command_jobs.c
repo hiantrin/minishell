@@ -6,7 +6,7 @@ int		put_error_fg(int type)
 		ft_putendl("42sh: fg: too many arguments");
 	else if (type == COMMAND_BG)
 		ft_putendl("42sh: bg: too many arguments");
-	the_status = -1;
+	the_status = 1;
 	return (-1);
 }
 
@@ -16,7 +16,7 @@ int		put_error_no_such(int type)
 		ft_putendl("42sh: fg: no such job");
 	else if (type == COMMAND_BG)
 		ft_putendl("42sh: bg: no such job");
-	the_status = -1;
+	the_status = 1;
 	return (-1);
 }
 
@@ -40,7 +40,7 @@ int		put_error_not_found(int type)
 		ft_putendl("42sh: fg: job not found");
 	else if (type == COMMAND_BG)
 		ft_putendl("42sh: bg: job not found");
-	the_status = -1;
+	the_status = 1;
 	return (-1);
 }
 

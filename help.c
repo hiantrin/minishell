@@ -41,7 +41,7 @@ int		to_exit(t_process *process, t_job *j)
 		e = 0;
 		if (i == 2)
 			e = print_exit_error(process->argv[1]);
-		if (if_exit == NULL && e != -1)
+		if (if_exit == NULL)
 		{
 			help_to_exit(j);
 			exit(e);
@@ -49,7 +49,7 @@ int		to_exit(t_process *process, t_job *j)
 	}
 	else if (i > 2)
 		ft_putendl_fd("exit: too many arguments", process->errorput);
-	the_status = -1;
+	the_status = 1;
 	return (-1);
 }
 

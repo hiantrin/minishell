@@ -18,7 +18,7 @@ char	**jump_options(char **argv, int error)
 			if (argv[i][j] != 'L' && argv[i][j] != 'P')
 			{
 				print_error_jump_options(argv[i][j], error);
-				the_status = -1;
+				the_status = 1;
 				return (NULL);
 			}
 			j++;
@@ -31,7 +31,7 @@ char	**jump_options(char **argv, int error)
 void	mini_norme_mini_cd(int error)
 {
 	ft_putendl_fd("42sh: cd: Too many arguments.", error);
-	the_status = -1;
+	the_status = 1;
 }
 
 void	help_saloupi_to_treat_cd2(t_env *list, int error)
@@ -40,7 +40,7 @@ void	help_saloupi_to_treat_cd2(t_env *list, int error)
 		ft_putendl_fd("42sh: cd: OLDPWD not set", error);
 	else
 		ft_putendl_fd("42sh: cd: no such file or directory", error);
-	the_status = -1;
+	the_status = 1;
 }
 
 void	mini_cd2(t_process *process, t_job *job)

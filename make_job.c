@@ -8,6 +8,7 @@ t_process	*make_process(char *line)
 	p->command = ft_strdup(line);
 	p->argv = NULL;
 	p->next = NULL;
+	p->signal = NULL;
 	p->pid = -1;
 	p->input = 0;
 	p->output = 1;

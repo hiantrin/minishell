@@ -58,7 +58,7 @@ void	to_unset(t_process *process, t_job *job)
 			ft_putstr_fd("minishell: unsetenv: `", process->errorput);
 			ft_putstr_fd(process->argv[i], process->errorput);
 			ft_putendl_fd("': not a valid identifier", process->errorput);
-			the_status = -1;
+			the_status = 1;
 		}
 		else if (job->mode == FORE &&
 			(new = check_env(process->argv[i], shell->env)) != NULL)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
+#    By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/19 17:15:33 by szakaria          #+#    #+#              #
-#    Updated: 2020/10/09 02:48:51 by mac              ###   ########.fr        #
+#    Updated: 2020/10/19 00:57:23 by hiantrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRC = minishell.c GTN/get_next_line.c trait.c execve.c list.c \
 		redirect_help_v2.c help_trait_and.c get_path.c filter_command.c \
 		built_back_fore.c built_env_echo.c mini_type.c built_unset.c \
 		built_export.c built_cd.c help_cd.c help_cd_v2.c variables.c \
-		move_variables.c help_variable.c help_v3.c
+		move_variables.c help_variable.c help_v3.c signals.c
 		
 C       = gcc
 OBJ = $(SRC:.c=.o)

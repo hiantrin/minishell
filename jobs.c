@@ -52,16 +52,26 @@ void	check_zombie(void)
 	int pid;
 	int job_id;
 
+	printf("dkhol hna\n");
 	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
+		printf("madkholx hna\n");
 		if (WIFEXITED(status))
 			set_process_status(pid, STATUS_DONE);
 		else if (WIFSTOPPED(status))
-			set_process_status(pid, STATUS_SUSPENDED, status);
+		{
+			set_process_status(pid, STATUS_SUSPENDED);
+			job_id = get_job_id_by_pid(pid);
+			print_job_status(job_id);
+		}
 		else if (WIFSIGNALED(status))
-			set_process_status(pid, STATUS_DONE, status);
+		{
+			printf("am here\n");
+			set_process_status(pid, STATUS_DONE);
+			set_signal(pid, status);
+		}
 		else if (WIFCONTINUED(status))
-			set_process_status(pid, STATUS_CONTINUED, status);
+			set_process_status(pid, STATUS_CONTINUED);
 		job_id = get_job_id_by_pid(pid);
 		if (job_id > 0 && is_job_completed(job_id) == 1)
 		{

@@ -27,7 +27,12 @@ void	final_help(t_process **process, t_job **j, int *count)
 
 int		print_exit_error(char *str)
 {
-	if (check_if_is_num(str) == 0)
+	int i;
+
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	if ((i == 1 && str[1] == '\0') || check_if_is_num(&str[i]) == 0)
 	{
 		ft_putstr("42sh: exit: ");
 		ft_putstr(str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/18 17:40:35 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/19 05:50:43 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct	s_process
 	int					input;
 	int					output;
 	int					errorput;
+	char				*signal;
     struct s_process	*next;
 }				t_process;
 
@@ -177,7 +178,7 @@ void			help_unsetenv(char *command);
 void			manage_variables2(t_env *save);
 void			help_to_wait(t_job *j, int *status);
 void			final_help(t_process **process, t_job **j, int *count);
-int				print_exit_error(char *str);
+void    		set_signal(pid_t pid, int status);
 
 char			*help_search_join(char *str, DIR *dir, char **print);
 char			**make_2d_table(char *line);
@@ -245,7 +246,7 @@ int				count_replace_env(char *line, int i, char c);
 int				h_f_f(char *file2, t_process *process, int ifnot);
 int				check_set(char *new);
 int				check_if_is_num(char *file);
-int				print_exit_error(char *str);
 int				if_numeric_or_percent(char *str);
+int				print_exit_error(char *str);
 
 #endif

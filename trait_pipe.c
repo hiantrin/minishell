@@ -22,12 +22,19 @@ void	make_the_put(t_process **process, t_job **j)
 
 void	close_pipe(t_process *process, t_job *job)
 {
+	//printf("%d\n", process->output);
+	if (process->output != job->p_output && process->output > 2)
+	{
+		printf("%d\n", process->output);
+	 	close(process->output);
+	}
 	if (job->p_input != 0 && job->p_input != -1)
 		close(job->p_input);
 	if (job->p_output != 1 && job->p_output != -1)
 		close(job->p_output);
 	if (process->errorput != 2 && process->errorput != 1 && process->errorput != -1)
 		close(process->errorput);
+	
 }
 
 void	pipe_execve(t_process *process, t_job *job)

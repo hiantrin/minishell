@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 03:20:30 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/18 01:02:20 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/19 05:52:46 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,21 @@
 int		type_one(char *file, t_process **process, int out)
 {
 	int			b;
+	struct stat l;
+	int 	a;
 
+	b = 0;
 	if (help_type_one(file, process[0]->errorput) == 0)
 		return (0);
-	if ((b = open(file, O_WRONLY | O_TRUNC)) == -1)
+	lstat(file, &l);
+	if ((l.st_mode & S_IFMT) == S_IFIFO)
+	{
+	 	a = open(file, O_RDONLY | O_NONBLOCK);
+		b = open(file, O_WRONLY);
+	}
+	else
+	 	b = open(file, O_WRONLY | O_TRUNC);
+	if (b == -1)
 		return (print_p_d(file, process[0]->errorput));
 	if (out == -1 || out == 1)
 	{

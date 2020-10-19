@@ -21,7 +21,7 @@ int		print_cd_error(char *argv, int error, char *new)
 {
 	ft_putstr_fd("42sh: cd: permission denied: ", error);
 	ft_putendl_fd(argv, error);
-	the_status = -1;
+	the_status = 1;
 	free(new);
 	return (0);
 }
@@ -54,14 +54,14 @@ int		test_dir(char *argv, t_process *process)
 		ft_putstr_fd("42sh: cd: no such file or directory: ",
 			process->errorput);
 		ft_putendl_fd(argv, process->errorput);
-		the_status = -1;
+		the_status = 1;
 		return (0);
 	}
 	else if (new[0] != 'x' && new[0] != 'd' && new[0] != 'r')
 	{
 		ft_putstr_fd("42sh: cd: not a directory: ", process->errorput);
 		ft_putendl_fd(argv, process->errorput);
-		the_status = -1;
+		the_status = 1;
 		free(new);
 		return (0);
 	}
