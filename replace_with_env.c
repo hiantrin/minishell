@@ -82,8 +82,10 @@ char	*replace_with_env(char *line, t_env *env, int b)
 	while (line[i])
 	{
 		c = line[i];
-		if (c == 34 || c == 39)
+		if (c == 39)
 			i = count_replace_env(line, i, c);
+		else if (c == 92)
+			i = i + 2;
 		else if (line[i] == '$')
 		{
 			a = i + 1;
@@ -93,7 +95,7 @@ char	*replace_with_env(char *line, t_env *env, int b)
 			mini_mini_norme(&line, str, a, i);
 			i = i + b;
 		}
-		else if (line[0] != '\0')
+		else if (line[i] != '\0')
 			i++;
 	}
 	return (line);

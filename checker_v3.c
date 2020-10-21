@@ -28,9 +28,12 @@ int		ft_filter_2eme(int len, char *cont, int index)
 	len++;
 	while (cont[len])
 	{
-		if (cont[len] == index)
+		if (cont[len] == 92)
+			len++;
+		else if (cont[len] == index)
 			return (len);
-		len++;
+		if (cont[len] != '\0')
+			len++;
 	}
 	return (0);
 }
@@ -77,7 +80,9 @@ char	*ft_filter_quote(int i, char *cont)
 	i = 0;
 	while (cont[len])
 	{
-		if (cont[len] == 34 || cont[len] == 39)
+		if (cont[len] == 92)
+			len++;
+		else if (cont[len] == 34 || cont[len] == 39)
 		{
 			c = ((int)cont[len]);
 			if ((resul = ft_filter_2eme(len, cont, c)) == 0)
@@ -88,7 +93,8 @@ char	*ft_filter_quote(int i, char *cont)
 			if (resul != 0)
 				len = resul;
 		}
-		len++;
+		if (cont[len] != '\0')
+			len++;
 	}
 	return (cont);
 }

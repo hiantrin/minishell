@@ -15,8 +15,13 @@ void	help_bonus(char *line, char **command, char s, int i)
 		if (c == 34 || c == 39)
 		{
 			i++;
-			while (line[i] && line[i] != c)
-				i++;
+			while (line[i] != c)
+			{
+				if (line[i] == 92 && c == 34)
+					i = i + 2;
+				else
+					i++;
+			}
 		}
 		else if (c == s)
 		{
@@ -44,7 +49,12 @@ int		count_command(char *line, char s)
 		{
 			i++;
 			while (line[i] != c)
-				i++;
+			{
+				if (line[i] == 92 && c == 34)
+					i = i + 2;
+				else
+					i++;
+			}
 		}
 		else if (c == s)
 			count++;

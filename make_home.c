@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_home.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:52:12 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/08 01:00:46 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/21 01:57:34 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,17 +110,19 @@ char	*replace_home(char *line, t_env *env)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == 39 || line[i] == 34)
+		if (line[i] == 39)
 		{
 			c = line[i];
 			i++;
 			while (line[i] && line[i] != c)
 				i++;
 		}
+		else if (c == 92)
+			i = i + 2;
 		else if (line[i] == '~' && (i == 0 || line[i - 1] == ' ' ||
 			line[i - 1] == '\t'))
 			i = help_replace_home2(&line, i, env);
-		else
+		else if (line[i] != '\0')
 			i++;
 	}
 	return (line);

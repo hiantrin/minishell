@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   slash_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 19:16:59 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/07 18:15:35 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/21 05:35:40 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,17 @@ int		count_slash(char *line)
 	while (line[i])
 	{
 		c = line[i];
-		if (c == 34 || c == 39)
+		if (c == 39 || c == 34)
 		{
 			i++;
 			while (line[i] && line[i] != c)
 				i++;
 		}
 		else if (c == 92)
+		{
+			i++;
 			count++;
+		}
 		if (line[i] != '\0')
 			i++;
 	}
@@ -50,14 +53,13 @@ char	*help_slash(char *line, int a)
 	while (line[j])
 	{
 		c = line[j];
-		if (c == 34 || c == 39)
+		if (c != 92)
+			str[a++] = line[j];
+		else if (c == 92 && line[j + 1] == 92)
 		{
 			j++;
-			while (line[j] && line[j] != c)
-				j++;
-		}
-		else if (c != 92)
 			str[a++] = line[j];
+		}
 		if (line[j] != '\0')
 			j++;
 	}
@@ -95,7 +97,12 @@ char	*move_quote(char *line, int i)
 			j = i;
 			i++;
 			while (line[i] != c)
-				i++;
+			{
+				if (line[i] == 92 && c == 34)
+					i = i + 2;
+				else
+					i++;
+			}
 			str = ft_strsub(line, j + 1, (i - (j + 1)));
 			join_with_something(&line, str, i + 1, j);
 			i--;

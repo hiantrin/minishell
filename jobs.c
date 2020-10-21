@@ -52,10 +52,8 @@ void	check_zombie(void)
 	int pid;
 	int job_id;
 
-	printf("dkhol hna\n");
 	while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
 	{
-		printf("madkholx hna\n");
 		if (WIFEXITED(status))
 			set_process_status(pid, STATUS_DONE);
 		else if (WIFSTOPPED(status))
@@ -66,7 +64,6 @@ void	check_zombie(void)
 		}
 		else if (WIFSIGNALED(status))
 		{
-			printf("am here\n");
 			set_process_status(pid, STATUS_DONE);
 			set_signal(pid, status);
 		}

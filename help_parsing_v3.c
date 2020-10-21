@@ -15,7 +15,12 @@ int		count_jobs(char *line)
 		{
 			i++;
 			while (line[i] != c)
-				i++;
+			{
+				if (line[i] == 92 && c == 34)
+					i = i + 2;
+				else
+					i++;
+			}
 		}
 		else if (c == '&' && line[i + 1] != '&' && line[i - 1] != '>'
 			&& line[i - 1] != '<' && line[i - 1] != '&')
@@ -40,8 +45,13 @@ void	help_split_jobs(char *line, char **command, int i)
 		if (c == 34 || c == 39)
 		{
 			i++;
-			while (line[i] && line[i] != c)
-				i++;
+			while (line[i] != c)
+			{
+				if (line[i] == 92 && c == 34)
+					i = i + 2;
+				else
+					i++;
+			}
 		}
 		else if (c == '&' && line[i + 1] != '&' && line[i - 1] != '>'
 			&& line[i - 1] != '<' && line[i - 1] != '&')

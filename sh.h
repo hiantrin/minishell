@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/19 05:50:43 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/21 04:05:28 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ char			*search_home(t_env *list);
 char			**manage_variables(char **argv, t_env **env);
 char			**create_new_argv(char **argv, int i);
 char			**help_re_null(t_env *save, t_env **env, char **argv);
+char    		*replace_by_s_q(char *str, int *start, int *end, int type);
 
 int				insert_job(t_job *job);
 int 			wait_for_job(int id, int wait_count);

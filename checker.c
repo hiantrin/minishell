@@ -44,6 +44,8 @@ int		check_count_and(char *str, int count)
 			while (str[i] && str[i] != c)
 				i++;
 		}
+		else if (c == 92)
+			i++;
 		else if (str[i] == '|' || str[i] == '&' || str[i] == '|'
 				|| str[i] == '>' || str[i] == '<' || str[i] == ';')
 		{

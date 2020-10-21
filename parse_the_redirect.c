@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 03:20:30 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/19 05:52:46 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/20 01:48:38 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		type_one(char *file, t_process **process, int out)
 	int			b;
 	struct stat l;
 	int 	a;
+	int fd[2];
+	//int 	
 
 	b = 0;
 	if (help_type_one(file, process[0]->errorput) == 0)
@@ -24,8 +26,20 @@ int		type_one(char *file, t_process **process, int out)
 	lstat(file, &l);
 	if ((l.st_mode & S_IFMT) == S_IFIFO)
 	{
-	 	a = open(file, O_RDONLY | O_NONBLOCK);
+		printf("here1\n");
+		pipe(fd);
+		a = fd[0];
+		a = open(file, O_NONBLOCK);
 		b = open(file, O_WRONLY);
+		//close(b);
+	 	//b = open(file, O_WRONLY);
+		//dup2(fd[0], a);
+		//dup2(b, fd[1]);
+		//b = b;
+		//process[0]->input = b;
+		//close(b);
+		//close(a);
+		//process[0]->input = a;
 	}
 	else
 	 	b = open(file, O_WRONLY | O_TRUNC);
@@ -33,6 +47,7 @@ int		type_one(char *file, t_process **process, int out)
 		return (print_p_d(file, process[0]->errorput));
 	if (out == -1 || out == 1)
 	{
+		printf("here\n");
 		if (process[0]->output != 1 && process[0]->output != -1)
 			close(process[0]->output);
 		process[0]->output = b;
