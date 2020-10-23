@@ -6,7 +6,7 @@
 #    By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/19 17:15:33 by szakaria          #+#    #+#              #
-#    Updated: 2020/10/21 04:05:55 by hiantrin         ###   ########.fr        #
+#    Updated: 2020/10/23 05:35:09 by hiantrin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRC = minishell.c GTN/get_next_line.c trait.c execve.c list.c \
 		built_back_fore.c built_env_echo.c mini_type.c built_unset.c \
 		built_export.c built_cd.c help_cd.c help_cd_v2.c variables.c \
 		move_variables.c help_variable.c help_v3.c signals.c \
-		trait_slash_quote.c
+		trait_slash_quote.c help_v4.c help_slash_quote.c
 		
 C       = gcc
 OBJ = $(SRC:.c=.o)

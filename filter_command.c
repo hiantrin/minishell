@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   filter_command.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 03:47:03 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 05:01:29 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 int		jump_quote(char *s, int end)
@@ -47,16 +59,10 @@ int		leno(char *s)
 	return (i);
 }
 
-char	*help_move_s_q(char *str)
+char	*help_move_s_q(char *str, int start, int type, int end)
 {
-	int		start;
 	char	c;
-	int		end;
-	int		type;
 
-	type = 0;
-	start = 0;
-	end = 0;
 	while (str[start])
 	{
 		c = str[start];
@@ -64,23 +70,11 @@ char	*help_move_s_q(char *str)
 		{
 			if (type == 0)
 				str = replace_by_s_q(str, &start, &end, 0);
-			start++;
-			while (str[start] && str[start] != c)
-			{
-				if (str[start] == 92 && c == 34)
-					start = start + 2;
-				else
-					start++;
-			}
-			start++;
-			str = replace_by_s_q(str, &start, &end, 1);
+			str = to_move_s_q(&str, c, &start, &end);
 			type = 1;
 		}
 		else if (c == 92)
-		{
-			start = start + 2;
-			type = 0;
-		}
+			another_help_f_s_q(&start, &type);
 		else
 		{
 			start++;
@@ -111,7 +105,7 @@ char	**ft_strsplito(char *s)
 		while (s[end] != ' ' && s[end] != '\0' && s[start] != '\t')
 			end = jump_quote(s, end);
 		str[i] = ft_strsub(s, start, (end - start));
-		str[i] = help_move_s_q(str[i]);
+		str[i] = help_move_s_q(str[i], 0, 0, 0);
 		start = end;
 		i++;
 	}
@@ -125,7 +119,7 @@ char	**mini_filter_h(char **str, t_env *env)
 	char		**tab;
 
 	i = 0;
-	str[0] = replace_with_env(str[0], env, i);
+	str[0] = replace_with_env(str[0], env, i, 0);
 	str[0] = replace_home(str[0], env);
 	if (search_no_espace(str[0]) == 0)
 		return (NULL);

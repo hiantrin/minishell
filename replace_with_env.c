@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   replace_with_env.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:56:00 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 05:01:16 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 char	*check_env(char *str, t_env *env)
@@ -70,14 +82,12 @@ void	join_with_anything2(char **line, char *str, int a, int i)
 	free(str);
 }
 
-char	*replace_with_env(char *line, t_env *env, int b)
+char	*replace_with_env(char *line, t_env *env, int b, int i)
 {
-	int		i;
 	char	*str;
 	int		a;
 	char	c;
 
-	i = 0;
 	b = 0;
 	while (line[i])
 	{

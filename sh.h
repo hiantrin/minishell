@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/21 04:05:28 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/23 05:44:08 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,15 +179,18 @@ void			manage_variables2(t_env *save);
 void			help_to_wait(t_job *j, int *status);
 void			final_help(t_process **process, t_job **j, int *count);
 void    		set_signal(pid_t pid, int status);
+void			another_help_f_s_q(int *start, int *type);
+void			alloc_shell(void);
+void			help_wait_for_job(int wait_pid, int status);
 
 char			*help_search_join(char *str, DIR *dir, char **print);
 char			**make_2d_table(char *line);
 char			**list_to_tab(t_env *env);
-char			*ft_filter_quote(int i, char *cont);
+char			*ft_filter_quote(char *cont, int c);
 char			**split_command(char *line, char s);
 char			**split_and_and(char *line, char c);
 char			**split_job(char *line);
-char			*replace_with_env(char *line, t_env *env, int b);
+char			*replace_with_env(char *line, t_env *env, int b, int i);
 char			*concate(char *path, char *str);
 char			*replace_home(char *line, t_env *env);
 char			*move_quote(char *line, int i);
@@ -207,6 +210,10 @@ char			**manage_variables(char **argv, t_env **env);
 char			**create_new_argv(char **argv, int i);
 char			**help_re_null(t_env *save, t_env **env, char **argv);
 char    		*replace_by_s_q(char *str, int *start, int *end, int type);
+char			*finish_slach(char *str, int *fi);
+char			*while_for_q_s(char *str);
+char			*to_move_s_q(char **str, char c, int *start, int *end);
+char			*help_finish_slach(char *str, int i, char *new);
 
 int				insert_job(t_job *job);
 int 			wait_for_job(int id, int wait_count);
@@ -249,5 +256,9 @@ int				check_set(char *new);
 int				check_if_is_num(char *file);
 int				if_numeric_or_percent(char *str);
 int				print_exit_error(char *str);
+int				check_if_there_slash(char *str, int i);
+int				help_c_c_and(char *str, char c, int i);
+int				norme_s_q(int i, char *line, char c);
+int				jump_for_move_quote(char *line, char c, int i);
 
 #endif

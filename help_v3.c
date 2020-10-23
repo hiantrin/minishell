@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   help_v3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:30:40 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 05:41:21 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	help_to_wait(t_job *j, int *status)
@@ -55,12 +67,21 @@ int		if_numeric_or_percent(char *str)
 		return (0);
 	if (str[i] == '\0' && search_last() != 0)
 		return (search_last());
-	if (if_numeric(&str[i]) == 0 || (id = atoi(&str[i])) > 29 || shell->job[id] == NULL)
+	if (if_numeric(&str[i]) == 0 || (id = atoi(&str[i])) > 29
+			|| shell->job[id] == NULL)
 		return (0);
 	else
 		return (id);
 }
 
-// (if_numeric(process->argv[1]) == 0 ||
-// 		(id = atoi(process->argv[1])) > 29 ||
-// 		shell->job[id] == NULL)))
+void	help_wait_for_job(int wait_pid, int status)
+{
+	set_process_status(wait_pid, STATUS_TERMINATED);
+	if (WTERMSIG(status) != 2 && WTERMSIG(status) != 13)
+	{
+		ft_putstr(signalmsg[WTERMSIG(status)]);
+		ft_putstr(": ");
+		ft_putnbr(WTERMSIG(status));
+		ft_putchar('\n');
+	}
+}

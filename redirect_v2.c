@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_v2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:55:41 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 05:01:45 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 char	*filter_for_file(char *file, t_env *env)
@@ -5,7 +17,7 @@ char	*filter_for_file(char *file, t_env *env)
 	int	i;
 
 	i = 0;
-	file = replace_with_env(file, env, i);
+	file = replace_with_env(file, env, i, 0);
 	file = replace_home(file, env);
 	file = move_slash(file);
 	file = move_quote(file, 0);

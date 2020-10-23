@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 03:26:58 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 03:44:12 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 int		print_and_of_number(char s, int count)
@@ -39,11 +51,7 @@ int		check_count_and(char *str, int count)
 	{
 		c = str[i];
 		if (c == 34 || c == 39)
-		{
-			i++;
-			while (str[i] && str[i] != c)
-				i++;
-		}
+			i = help_c_c_and(str, c, i);
 		else if (c == 92)
 			i++;
 		else if (str[i] == '|' || str[i] == '&' || str[i] == '|'
@@ -60,13 +68,15 @@ int		check_count_and(char *str, int count)
 
 int		check_if_and_and(char **str, int i)
 {
+	int j;
+
 	while (1)
 	{
 		i = 0;
 		if (!str[0] || check_count_and(str[0], 0) == 0 ||
 			check_cursh(str[0]) == 0)
 			return (0);
-		str[0] = ft_filter_quote(0, str[0]);
+		str[0] = while_for_q_s(str[0]);
 		while (str[0][i])
 			i++;
 		i--;
@@ -74,9 +84,9 @@ int		check_if_and_and(char **str, int i)
 			break ;
 		while (i != 0 || (i == 0 && (str[0][i] == 34 || str[0][i] == 39)))
 		{
-			if (help_check_if_and_and(&str[0], i) == 1)
+			if ((j = help_check_if_and_and(&str[0], i)) == 1)
 				return (1);
-			else if (help_check_if_and_and(&str[0], i) == -1)
+			else if (j == -1)
 				break ;
 			i--;
 		}

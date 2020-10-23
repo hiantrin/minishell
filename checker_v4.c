@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker_v4.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 03:26:45 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 03:43:03 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 int		help_check_curch(char *str, int *count)
@@ -59,17 +71,19 @@ int		help_check_if_and_and(char **str, int i)
 {
 	char	*new;
 
-	if (str[0][i] != ' ' && str[0][i] != '\t' && str[0][i] != '\n'
-		&& str[0][i] != '&' && str[0][i] != '|')
+	if (((str[0][i] != ' ' && str[0][i] != '\t' && str[0][i] != '\n')
+		|| ((str[0][i] == ' ' || str[0][i] != '\t' || str[0][i] != '\n')
+		&& str[0][i - 1] == 92)) && str[0][i] != '&' && str[0][i] != '|')
 		return (1);
-	else if (str[0][i] == '|' ||
+	else if ((str[0][i] == '|' ||
 		(str[0][i] == '&' && str[0][i + 1] == '&'))
+		&& check_if_there_slash(str[0], i))
 	{
 		help_to_finish_the_pipe(&str[0]);
 		return (-1);
 	}
 	new = ft_strdup(str[0]);
-	str[0] = ft_filter_quote(0, str[0]);
+	str[0] = ft_filter_quote(str[0], 0);
 	if (ft_strcmp(new, str[0]) != 0)
 	{
 		free(new);

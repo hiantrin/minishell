@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   jobs.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:38:42 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 04:49:48 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	print_pgid_of_job(int id)
@@ -46,6 +58,18 @@ int		get_job_id_by_pid(int pid)
 	return (-1);
 }
 
+void	help_check_zombie(pid_t pid)
+{
+	int	job_id;
+
+	job_id = get_job_id_by_pid(pid);
+	if (job_id > 0 && is_job_completed(job_id) == 1)
+	{
+		print_job_status(job_id);
+		remove_job(job_id);
+	}
+}
+
 void	check_zombie(void)
 {
 	int status;
@@ -69,11 +93,6 @@ void	check_zombie(void)
 		}
 		else if (WIFCONTINUED(status))
 			set_process_status(pid, STATUS_CONTINUED);
-		job_id = get_job_id_by_pid(pid);
-		if (job_id > 0 && is_job_completed(job_id) == 1)
-		{
-			print_job_status(job_id);
-			remove_job(job_id);
-		}
+		help_check_zombie(pid);
 	}
 }

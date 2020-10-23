@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 19:16:59 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/21 05:35:40 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/23 05:34:36 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,7 @@ char	*move_quote(char *line, int i)
 		if (c == 34 || c == 39)
 		{
 			j = i;
-			i++;
-			while (line[i] != c)
-			{
-				if (line[i] == 92 && c == 34)
-					i = i + 2;
-				else
-					i++;
-			}
+			i = jump_for_move_quote(line, c, i);
 			str = ft_strsub(line, j + 1, (i - (j + 1)));
 			join_with_something(&line, str, i + 1, j);
 			i--;
@@ -111,4 +104,30 @@ char	*move_quote(char *line, int i)
 			i++;
 	}
 	return (line);
+}
+
+char	*finish_slach(char *str, int *fi)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	fi[0] = 0;
+	while (str[i])
+	{
+		if (str[i] == 92 && str[i + 1] == '\0')
+		{
+			ft_putstr("> ");
+			get_next_line(0, &new);
+			if (new)
+				str = help_finish_slach(str, i, new);
+			fi[0] = 1;
+			i = -1;
+		}
+		else if (str[i] == 92)
+			i++;
+		if (i == -1 || str[i] != '\0')
+			i++;
+	}
+	return (str);
 }

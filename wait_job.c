@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wait_job.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 05:36:53 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 05:43:38 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	set_process_status(pid_t pid, int status)
@@ -81,16 +93,7 @@ int		wait_for_job(int id, int wait_count)
 		if (WIFEXITED(status))
 			set_process_status(wait_pid, STATUS_DONE);
 		else if (WIFSIGNALED(status))
-		{
-			set_process_status(wait_pid, STATUS_TERMINATED);
-			if (WTERMSIG(status) != 2 && WTERMSIG(status) != 13)
-			{
-				ft_putstr(signalmsg[WTERMSIG(status)]);
-				ft_putstr(": ");
-				ft_putnbr(WTERMSIG(status));
-				ft_putchar('\n');
-			}
-		}
+			help_wait_for_job(wait_pid, status);
 		else if (WSTOPSIG(status))
 		{
 			status = -1;

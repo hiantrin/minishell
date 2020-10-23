@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trait_pipe.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:56:32 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 05:03:09 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	make_the_put(t_process **process, t_job **j)
@@ -28,9 +40,9 @@ void	close_pipe(t_process *process, t_job *job)
 		close(job->p_input);
 	if (job->p_output != 1 && job->p_output != -1)
 		close(job->p_output);
-	if (process->errorput != 2 && process->errorput != 1 && process->errorput != -1)
+	if (process->errorput != 2 && process->errorput != 1
+		&& process->errorput != -1)
 		close(process->errorput);
-	
 }
 
 void	pipe_execve(t_process *process, t_job *job)

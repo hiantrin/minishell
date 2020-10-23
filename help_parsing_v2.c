@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   help_parsing_v2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:26:03 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 04:26:04 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	help_split_and_and(char *line, char **command, int i, char s)
@@ -12,16 +24,9 @@ void	help_split_and_and(char *line, char **command, int i, char s)
 	{
 		c = line[i];
 		if (c == 34 || c == 39)
-		{
+			i = norme_s_q(i, line, c);
+		else if (line[i] == 92)
 			i++;
-			while (line[i] != c)
-			{
-				if (line[i] == 92 && c == 34)
-					i = i + 2;
-				else
-					i++;
-			}
-		}
 		else if (c == s && line[i + 1] == s && line[i + 2] != s)
 		{
 			command[a++] = ft_strsub(line, j, i - j);
@@ -46,16 +51,9 @@ int		count_and_and(char *line, char s)
 	{
 		c = line[i];
 		if (c == 34 || c == 39)
-		{
+			i = norme_s_q(i, line, c);
+		else if (line[i] == 92)
 			i++;
-			while (line[i] != c)
-			{
-				if (line[i] == 92 && c == 34)
-					i = i + 2;
-				else
-					i++;
-			}
-		}
 		else if (c == s && line[i + 1] == s && line[i + 2] != s)
 		{
 			count++;

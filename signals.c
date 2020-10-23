@@ -6,15 +6,15 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 00:57:10 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/21 03:46:34 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/23 04:55:27 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-void    set_signal(pid_t pid, int status)
+void	set_signal(pid_t pid, int status)
 {
-    int			i;
+	int			i;
 	t_process	*process;
 
 	i = 1;

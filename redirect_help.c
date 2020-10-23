@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_help.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:51:32 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 04:52:08 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 int		print_error_num(char *file, int error)
@@ -13,7 +25,7 @@ int		print_error_num(char *file, int error)
 int		help_type_one(char *file, int error)
 {
 	struct stat	l;
-	int i;
+	int			i;
 
 	if (lstat(file, &l) == -1)
 	{

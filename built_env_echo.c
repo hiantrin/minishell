@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_env_echo.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 03:25:00 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 03:27:58 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	print_env(int output)
@@ -56,7 +68,8 @@ void	to_echo(t_process *process)
 	the_status = 0;
 	if (process->output == -1)
 	{
-		ft_putendl_fd("42sh: echo: write error: Bad file descriptor", process->errorput);
+		ft_putendl_fd("42sh: echo: write error: Bad file descriptor",
+			process->errorput);
 		the_status = 1;
 	}
 }

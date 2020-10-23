@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   help_parsing_v3.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 04:27:56 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 04:27:57 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 int		count_jobs(char *line)
@@ -12,18 +24,11 @@ int		count_jobs(char *line)
 	{
 		c = line[i];
 		if (c == 34 || c == 39)
-		{
+			i = norme_s_q(i, line, c);
+		else if (line[i] == 92)
 			i++;
-			while (line[i] != c)
-			{
-				if (line[i] == 92 && c == 34)
-					i = i + 2;
-				else
-					i++;
-			}
-		}
-		else if (c == '&' && line[i + 1] != '&' && line[i - 1] != '>'
-			&& line[i - 1] != '<' && line[i - 1] != '&')
+		else if (c == '&' && line[i - 1] != '>'
+			&& line[i - 1] != '<')
 			count++;
 		if (line[i] != '\0')
 			i++;
@@ -43,18 +48,11 @@ void	help_split_jobs(char *line, char **command, int i)
 	{
 		c = line[i];
 		if (c == 34 || c == 39)
-		{
+			i = norme_s_q(i, line, c);
+		else if (line[i] == 92)
 			i++;
-			while (line[i] != c)
-			{
-				if (line[i] == 92 && c == 34)
-					i = i + 2;
-				else
-					i++;
-			}
-		}
-		else if (c == '&' && line[i + 1] != '&' && line[i - 1] != '>'
-			&& line[i - 1] != '<' && line[i - 1] != '&')
+		else if (c == '&' && line[i - 1] != '>'
+			&& line[i - 1] != '<')
 		{
 			command[a++] = ft_strsub(line, j, i - j);
 			j = i + 1;

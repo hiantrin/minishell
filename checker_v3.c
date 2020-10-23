@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker_v3.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 03:26:27 by hiantrin          #+#    #+#             */
+/*   Updated: 2020/10/23 03:42:23 by hiantrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 void	help_to_finish_the_pipe(char **line)
@@ -68,16 +80,13 @@ char	*read_quote(char *cont, int index)
 	return (tmp2);
 }
 
-char	*ft_filter_quote(int i, char *cont)
+char	*ft_filter_quote(char *cont, int c)
 {
 	int		resul;
-	int		c;
 	int		len;
 
-	c = 0;
 	len = 0;
 	resul = 0;
-	i = 0;
 	while (cont[len])
 	{
 		if (cont[len] == 92)
