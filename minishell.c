@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:50:28 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:50:30 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:28:28 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+
+char	**my_tab_signalmsg(void)
+{
+	static char *signalmsg[] = {
+		"Done", "Hangup", "Interrupt", "Quit", "Illegal instruction",
+		"Trace/breakpoint trap", "Aborted", "Bus error",
+		"Floating point exception", "Killed", "User defined signal 1",
+		"Segmentation fault", "User defined signal 2", "Broken pipe",
+		"Alarm clock", "Terminated", "Stack fault", "Child exited", "suspended",
+		"Stopped (signal)", "Stopped", "Stopped (tty input)",
+		"Stopped (tty output)", "Urgent I/O condition",
+		"CPU time limit exceeded", "File size limit exceeded",
+		"Virtual timer expired", "Profiling timer expired", "Window changed",
+		"I/O possible", "Power failure"
+	};
+
+	return (signalmsg);
+}
 
 int		search_no_espace(char *str)
 {
@@ -42,7 +60,7 @@ int		help_main(int argc, char **argv, char **env)
 	}
 	list = create_env(env);
 	init_shell();
-	shell->env = list;
+	g_shell->env = list;
 	return (1);
 }
 

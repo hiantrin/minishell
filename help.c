@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:45:49 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:45:50 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:01:27 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		to_exit(t_process *process, t_job *j)
 		e = 0;
 		if (i == 2)
 			e = print_exit_error(process->argv[1]);
-		if (if_exit == NULL)
+		if (g_if_exit == NULL)
 		{
 			help_to_exit(j);
 			exit(e);
@@ -61,7 +61,7 @@ int		to_exit(t_process *process, t_job *j)
 	}
 	else if (i > 2)
 		ft_putendl_fd("exit: too many arguments", process->errorput);
-	the_status = 1;
+	g_the_status = 1;
 	return (-1);
 }
 

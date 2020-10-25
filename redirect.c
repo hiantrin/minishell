@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:53:13 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:53:31 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int		help_to_parse(char **line, int *j, t_process **process)
 	while (line[0][a] == '<' || line[0][a] == '>')
 		a++;
 	file = take_file(&line[0], &a);
-	file = filter_for_file(file, shell->env);
+	file = filter_for_file(file, g_shell->env);
 	if (type == 4 && check_if_is_num(file) == 1 &&
 		(line[0][a] == '<' || line[0][a] == '>'))
 		return (print_error_num(file, process[0]->errorput));
 	if (parse_to_two(file, out, type, &process[0]) == 0)
 	{
-		the_status = 1;
+		g_the_status = 1;
 		return (0);
 	}
 	join_with_anything(&line[0], a, j[0]);

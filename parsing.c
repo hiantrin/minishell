@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:51:12 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:51:13 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:01:27 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ void	jobs_parse(char *line)
 	int i;
 
 	i = 0;
-	the_jobs = split_job(line);
-	while (the_jobs[i])
+	g_the_jobs = split_job(line);
+	while (g_the_jobs[i])
 	{
-		if (check_line(the_jobs[i]))
+		if (check_line(g_the_jobs[i]))
 		{
-			if (the_jobs[i + 1] != NULL)
-				trait(the_jobs[i], BACK);
+			if (g_the_jobs[i + 1] != NULL)
+				trait(g_the_jobs[i], BACK);
 			else
-				trait(the_jobs[i], FORE);
+				trait(g_the_jobs[i], FORE);
 		}
 		i++;
 	}
-	free_2d(the_jobs);
-	the_jobs = NULL;
+	free_2d(g_the_jobs);
+	g_the_jobs = NULL;
 }
 
 void	or_or_parse(char *line, int fo)
@@ -38,21 +38,21 @@ void	or_or_parse(char *line, int fo)
 	int i;
 
 	i = 0;
-	or_or = split_and_and(line, '|');
-	while (or_or[i])
+	g_or_or = split_and_and(line, '|');
+	while (g_or_or[i])
 	{
-		if (check_line(or_or[i]))
+		if (check_line(g_or_or[i]))
 		{
-			if (fo == 0 || (i == 0 && the_status == 0)
-				|| (i != 0 && the_status != 0))
-				jobs_parse(or_or[i]);
-			if (the_status == 0)
+			if (fo == 0 || (i == 0 && g_the_status == 0)
+				|| (i != 0 && g_the_status != 0))
+				jobs_parse(g_or_or[i]);
+			if (g_the_status == 0)
 				break ;
 		}
 		i++;
 	}
-	free_2d(or_or);
-	or_or = NULL;
+	free_2d(g_or_or);
+	g_or_or = NULL;
 }
 
 void	and_and_parse(char *line)
@@ -60,15 +60,15 @@ void	and_and_parse(char *line)
 	int i;
 
 	i = 0;
-	and_and = split_and_and(line, '&');
-	while (and_and[i])
+	g_and_and = split_and_and(line, '&');
+	while (g_and_and[i])
 	{
-		if (check_line(and_and[i]))
-			or_or_parse(and_and[i], i);
+		if (check_line(g_and_and[i]))
+			or_or_parse(g_and_and[i], i);
 		i++;
 	}
-	free_2d(and_and);
-	and_and = NULL;
+	free_2d(g_and_and);
+	g_and_and = NULL;
 }
 
 void	semicolon_parse(char *line)
@@ -76,15 +76,15 @@ void	semicolon_parse(char *line)
 	int	i;
 
 	i = 0;
-	semicolon = split_command(line, ';');
+	g_semicolon = split_command(line, ';');
 	free(line);
-	while (semicolon[i])
+	while (g_semicolon[i])
 	{
-		if_exit = semicolon[i + 1];
-		if (check_line(semicolon[i]))
-			and_and_parse(semicolon[i]);
+		g_if_exit = g_semicolon[i + 1];
+		if (check_line(g_semicolon[i]))
+			and_and_parse(g_semicolon[i]);
 		i++;
 	}
-	free_2d(semicolon);
-	semicolon = NULL;
+	free_2d(g_semicolon);
+	g_semicolon = NULL;
 }

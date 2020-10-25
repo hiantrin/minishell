@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:56:32 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 05:03:09 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 12:24:17 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void	make_the_put(t_process **process, t_job **j)
 
 void	close_pipe(t_process *process, t_job *job)
 {
-	if (process->input != 0)
-		close(process->input);
 	if (job->p_input != 0 && job->p_input != -1)
 		close(job->p_input);
 	if (job->p_output != 1 && job->p_output != -1)

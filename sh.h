@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 23:31:18 by szakaria          #+#    #+#             */
-/*   Updated: 2020/10/23 05:44:08 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 12:16:36 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,56 +33,56 @@
 # define BUFF_SIZE 1024
 # define NR_J 30
 
-#define STATUS_RUNNING 0
-#define STATUS_DONE 1
-#define STATUS_SUSPENDED 2
-#define STATUS_CONTINUED 3
-#define STATUS_TERMINATED 4
+# define STATUS_RUNNING 0
+# define STATUS_DONE 1
+# define STATUS_SUSPENDED 2
+# define STATUS_CONTINUED 3
+# define STATUS_TERMINATED 4
 
-#define COMMAND_EXTERNAL 0
-#define COMMAND_EXIT 1
-#define COMMAND_CD 2
-#define COMMAND_JOBS 3
-#define COMMAND_FG 4
-#define COMMAND_BG 5
-#define COMMAND_EXPORT 6
-#define COMMAND_UNSET 7
-#define COMMAND_SET 8
-#define COMMAND_ECHO 9
-#define COMMAND_TYPE 10
-#define	COMMAND_ENV 11
+# define COMMAND_EXTERNAL 0
+# define COMMAND_EXIT 1
+# define COMMAND_CD 2
+# define COMMAND_JOBS 3
+# define COMMAND_FG 4
+# define COMMAND_BG 5
+# define COMMAND_EXPORT 6
+# define COMMAND_UNSET 7
+# define COMMAND_SET 8
+# define COMMAND_ECHO 9
+# define COMMAND_TYPE 10
+# define COMMAND_ENV 11
 
-#define BACK 0
-#define FORE 1
+# define BACK 0
+# define FORE 1
 
 typedef struct	s_env
 {
 	char			*name;
 	char			*environ;
 	int				flag;
-	struct	s_env	*next;
+	struct s_env	*next;
 }				t_env;
 
 typedef struct	s_process
 {
 	char				*command;
-    char				**argv;
-    pid_t				pid;
-    int					type;
-    int					status;
+	char				**argv;
+	pid_t				pid;
+	int					type;
+	int					status;
 	int					input;
 	int					output;
 	int					errorput;
 	char				*signal;
-    struct s_process	*next;
+	struct s_process	*next;
 }				t_process;
 
 typedef struct	s_job
 {
 	int				id;
-    t_process		*process;
-    char			*command;
-    pid_t			pgid;
+	t_process		*process;
+	char			*command;
+	pid_t			pgid;
 	int				mode;
 	int				p_input;
 	int				p_output;
@@ -103,30 +103,14 @@ typedef struct	s_some_norme
 	char	*str;
 }				t_some_norme;
 
-//~/.norminette/norminette.rb
-
-t_shell		*shell;
-char		**STATUS_STRING;
-char		**semicolon;
-char		**and_and;
-char		**or_or;
-char		**the_jobs;
-int			the_status;
-char		*if_exit;
-
-static char *signalmsg[] = {
-		"Done", "Hangup", "Interrupt", "Quit", "Illegal instruction",
-		"Trace/breakpoint trap", "Aborted", "Bus error",
-		"Floating point exception", "Killed", "User defined signal 1",
-		"Segmentation fault", "User defined signal 2", "Broken pipe",
-		"Alarm clock", "Terminated", "Stack fault", "Child exited", "suspended",
-		"Stopped (signal)", "Stopped", "Stopped (tty input)",
-		"Stopped (tty output)", "Urgent I/O condition",
-		"CPU time limit exceeded", "File size limit exceeded",
-		"Virtual timer expired", "Profiling timer expired", "Window changed",
-		"I/O possible", "Power failure"
-	};
-
+t_shell		*g_shell;
+char		**g_status_string;
+char		**g_semicolon;
+char		**g_and_and;
+char		**g_or_or;
+char		**g_the_jobs;
+int			g_the_status;
+char		*g_if_exit;
 
 t_job			*make_job(char *line, int mode);
 
@@ -136,12 +120,12 @@ t_env			*create_next(char *environ);
 void			trait(char *line, int mode);
 void			init_shell();
 void			exec_command(t_job **job, t_process **process);
-void    		remove_job(int id);
-void    		print_pgid_of_job(int id);
+void			remove_job(int id);
+void			print_pgid_of_job(int id);
 void			set_process_status(int pid, int status);
-void    		print_job_status(int id);
-void    		check_zombie();
-void    		print_job_status(int id);
+void			print_job_status(int id);
+void			check_zombie();
+void			print_job_status(int id);
 void			set_job_status(int id, int status);
 void			execve_help(t_process **process, t_job **job,
 				char *command, char *print);
@@ -151,7 +135,7 @@ void			free_job(t_job *job);
 void			help_to_finish_the_pipe(char **line);
 void			semicolon_parse(char *line);
 void			help_to_exit(t_job *job);
-void    		make_the_put(t_process **process, t_job **j);
+void			make_the_put(t_process **process, t_job **j);
 void			pipe_execve(t_process *process, t_job *job);
 void			close_pipe(t_process *process, t_job *job);
 void			join_with_anything(char **line, int a, int i);
@@ -178,7 +162,7 @@ void			help_unsetenv(char *command);
 void			manage_variables2(t_env *save);
 void			help_to_wait(t_job *j, int *status);
 void			final_help(t_process **process, t_job **j, int *count);
-void    		set_signal(pid_t pid, int status);
+void			set_signal(pid_t pid, int status);
 void			another_help_f_s_q(int *start, int *type);
 void			alloc_shell(void);
 void			help_wait_for_job(int wait_pid, int status);
@@ -209,14 +193,15 @@ char			*search_home(t_env *list);
 char			**manage_variables(char **argv, t_env **env);
 char			**create_new_argv(char **argv, int i);
 char			**help_re_null(t_env *save, t_env **env, char **argv);
-char    		*replace_by_s_q(char *str, int *start, int *end, int type);
+char			*replace_by_s_q(char *str, int *start, int *end, int type);
 char			*finish_slach(char *str, int *fi);
 char			*while_for_q_s(char *str);
 char			*to_move_s_q(char **str, char c, int *start, int *end);
 char			*help_finish_slach(char *str, int i, char *new);
+char			**my_tab_signalmsg(void);
 
 int				insert_job(t_job *job);
-int 			wait_for_job(int id, int wait_count);
+int				wait_for_job(int id, int wait_count);
 int				get_command_type(char *command);
 int				to_jobs(t_job *j);
 int				to_fg(t_process *process, t_job *j);

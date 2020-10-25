@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:44:45 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:44:48 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@ void	exec_command(t_job **job, t_process **process)
 
 	process[0]->status = STATUS_DONE;
 	print = NULL;
-	if (search_env(shell->env))
+	if (search_env(g_shell->env))
 	{
-		path = ft_strsplit(search_env(shell->env), ':');
+		path = ft_strsplit(search_env(g_shell->env), ':');
 		command = search_join(path, process[0]->argv[0], &print);
 		free_2d(path);
 		execve_help(&process[0], &job[0], command, print);
 		if (command != NULL)
 			free(command);
 		else
-			the_status = 127;
+			g_the_status = 127;
 		if (print != NULL)
 			free(print);
 		else

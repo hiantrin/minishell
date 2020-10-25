@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:56:00 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 05:01:16 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*check_env(char *str, t_env *env)
 {
 	if (ft_strcmp(str, "?") == 0)
-		return (ft_itoa(the_status));
+		return (ft_itoa(g_the_status));
 	while (env)
 	{
 		if (ft_strcmp(str, env->name) == 0)

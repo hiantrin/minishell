@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_variables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:50:58 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:50:59 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 10:52:28 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	the_last_flag(char *set, t_env *save)
 	t_env	*list;
 	char	*str;
 
-	list = shell->env;
+	list = g_shell->env;
 	str = get_name(set);
 	while (save)
 	{
@@ -98,7 +98,7 @@ void	manage_variables2(t_env *save)
 	list_to_two_table(save, &set, &unset);
 	while (set[i])
 	{
-		help_setenv(set[i], &shell->env);
+		help_setenv(set[i], &g_shell->env);
 		the_last_flag(set[i], save);
 		i++;
 	}

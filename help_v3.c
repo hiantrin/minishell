@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:30:40 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 05:41:21 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:42:40 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		if_numeric_or_percent(char *str)
 	if (str[i] == '\0' && search_last() != 0)
 		return (search_last());
 	if (if_numeric(&str[i]) == 0 || (id = atoi(&str[i])) > 29
-			|| shell->job[id] == NULL)
+			|| g_shell->job[id] == NULL)
 		return (0);
 	else
 		return (id);
@@ -76,9 +76,12 @@ int		if_numeric_or_percent(char *str)
 
 void	help_wait_for_job(int wait_pid, int status)
 {
+	char	**signalmsg;
+
 	set_process_status(wait_pid, STATUS_TERMINATED);
 	if (WTERMSIG(status) != 2 && WTERMSIG(status) != 13)
 	{
+		signalmsg = my_tab_signalmsg();
 		ft_putstr(signalmsg[WTERMSIG(status)]);
 		ft_putstr(": ");
 		ft_putnbr(WTERMSIG(status));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 04:25:12 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/09 02:20:30 by mac              ###   ########.fr       */
+/*   Updated: 2020/10/25 10:53:25 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	replace_env_variable(t_env *save)
 	t_env	*head;
 	char	*str;
 
-	head = shell->env;
+	head = g_shell->env;
 	while (save)
 	{
 		str = save->name;
@@ -116,11 +116,11 @@ char	**manage_variables(char **argv, t_env **env)
 		}
 		else
 		{
-			type = search_if_is_there(argv[i], shell->env);
+			type = search_if_is_there(argv[i], g_shell->env);
 			help_setenv(argv[i], &save);
-			replace_old_env(&save, shell->env, argv[i], type);
-			help_setenv(argv[i], &shell->env);
-			replace_variable(argv[i], &shell->env, type);
+			replace_old_env(&save, g_shell->env, argv[i], type);
+			help_setenv(argv[i], &g_shell->env);
+			replace_variable(argv[i], &g_shell->env, type);
 		}
 		i++;
 	}

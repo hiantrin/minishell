@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_command_jobs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:45:23 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:45:30 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		put_error_fg(int type)
 		ft_putendl("42sh: fg: too many arguments");
 	else if (type == COMMAND_BG)
 		ft_putendl("42sh: bg: too many arguments");
-	the_status = 1;
+	g_the_status = 1;
 	return (-1);
 }
 
@@ -28,7 +28,7 @@ int		put_error_no_such(int type)
 		ft_putendl("42sh: fg: no such job");
 	else if (type == COMMAND_BG)
 		ft_putendl("42sh: bg: no such job");
-	the_status = 1;
+	g_the_status = 1;
 	return (-1);
 }
 
@@ -39,7 +39,7 @@ int		search_last(void)
 	i = 29;
 	while (i > 0)
 	{
-		if (shell->job[i])
+		if (g_shell->job[i])
 			return (i);
 		i--;
 	}
@@ -52,7 +52,7 @@ int		put_error_not_found(int type)
 		ft_putendl("42sh: fg: job not found");
 	else if (type == COMMAND_BG)
 		ft_putendl("42sh: bg: job not found");
-	the_status = 1;
+	g_the_status = 1;
 	return (-1);
 }
 
@@ -60,7 +60,7 @@ void	set_job_status(int id, int status)
 {
 	t_process *process;
 
-	process = shell->job[id]->process;
+	process = g_shell->job[id]->process;
 	while (process)
 	{
 		if (process->status != STATUS_DONE)

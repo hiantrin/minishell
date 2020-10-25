@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_command_jobs_v2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:46:34 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:46:36 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	help_to_fg(pid_t pid, int id)
 {
 	tcsetpgrp(0, pid);
 	set_job_status(id, STATUS_CONTINUED);
-	if ((the_status = wait_for_job(id, 0)) >= 0)
+	if ((g_the_status = wait_for_job(id, 0)) >= 0)
 	{
 		print_job_status(id);
 		remove_job(id);

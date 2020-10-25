@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:38:42 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:49:48 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 10:51:35 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_pgid_of_job(int id)
 	ft_putchar('[');
 	ft_putnbr(id);
 	ft_putstr("] ");
-	ft_putnbr(shell->job[id]->pgid);
+	ft_putnbr(g_shell->job[id]->pgid);
 	ft_putchar('\n');
 }
 
@@ -25,7 +25,7 @@ int		is_job_completed(int id)
 {
 	t_process	*process;
 
-	process = shell->job[id]->process;
+	process = g_shell->job[id]->process;
 	while (process)
 	{
 		if (process->status != STATUS_DONE)
@@ -43,9 +43,9 @@ int		get_job_id_by_pid(int pid)
 	i = 1;
 	while (i < NR_J)
 	{
-		if (shell->job[i])
+		if (g_shell->job[i])
 		{
-			process = shell->job[i]->process;
+			process = g_shell->job[i]->process;
 			while (process)
 			{
 				if (process->pid == pid)

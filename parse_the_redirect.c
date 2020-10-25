@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 03:20:30 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 05:28:41 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 12:16:30 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int		type_one(char *file, t_process **process, int out)
 	if ((l.st_mode & S_IFMT) == S_IFIFO)
 	{
 		pipe(fd);
-		a = fd[0];
 		a = open(file, O_NONBLOCK);
 		b = open(file, O_WRONLY);
+		close(a);
 	}
 	else
 		b = open(file, O_WRONLY | O_TRUNC);
@@ -36,7 +36,6 @@ int		type_one(char *file, t_process **process, int out)
 		return (print_p_d(file, process[0]->errorput));
 	if (out == -1 || out == 1)
 	{
-		printf("here\n");
 		if (process[0]->output != 1 && process[0]->output != -1)
 			close(process[0]->output);
 		process[0]->output = b;

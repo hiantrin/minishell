@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_help.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:44:37 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:44:38 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 10:49:24 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	execve_help(t_process **process, t_job **job,
 	pid_t	pid;
 	char	**tab;
 
-	tab = list_to_tab(shell->env);
+	tab = list_to_tab(g_shell->env);
 	pid = fork();
 	if (pid == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:25:23 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:25:24 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ void	to_export(t_process *process, t_job *job, char **argv)
 			ft_putstr_fd("minishell: setenv: `", process->errorput);
 			ft_putstr_fd(argv[i], process->errorput);
 			ft_putendl_fd("': not a valid identifier", process->errorput);
-			the_status = 1;
+			g_the_status = 1;
 		}
 		else if (job->mode == FORE &&
 			ft_strchr(argv[i], '=') != NULL)
-			help_setenv(argv[i], &shell->env);
+			help_setenv(argv[i], &g_shell->env);
 		i++;
 	}
 }

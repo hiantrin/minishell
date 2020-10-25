@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trait.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 05:14:36 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 05:14:38 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 12:14:02 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ void	help_trait_v2(t_job *j, int count)
 		help_to_wait(j, &status);
 	if (status >= 0 && j->mode == FORE)
 	{
-		if (the_status != 127)
-			the_status = status;
-		if (the_status != 127 && the_status > 0)
-			the_status = 1;
+		if (g_the_status != 127)
+			g_the_status = status;
+		if (g_the_status != 127 && g_the_status > 0)
+			g_the_status = 1;
 		remove_job(j->id);
 	}
 	else if (j->mode == BACK)
@@ -114,7 +114,8 @@ void	trait(char *line, int mode)
 		make_the_put(&process, &j);
 		h = redirect(&process);
 		if (h == 1 && search_no_espace(process->command) == 1
-			&& (process->argv = mini_filter_h(&(process->command), shell->env)))
+			&& (process->argv = mini_filter_h(&(process->command),
+			g_shell->env)))
 			final_help(&process, &j, &count);
 		close_pipe(process, j);
 		process = process->next;

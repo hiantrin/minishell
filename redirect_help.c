@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:51:32 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:52:08 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		print_error_num(char *file, int error)
 		error);
 	ft_putstr_fd(file, error);
 	ft_putendl_fd("'", error);
-	the_status = 1;
+	g_the_status = 1;
 	return (0);
 }
 

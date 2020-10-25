@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:25:41 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:25:42 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**jump_options(char **argv, int error)
 			if (argv[i][j] != 'L' && argv[i][j] != 'P')
 			{
 				print_error_jump_options(argv[i][j], error);
-				the_status = 1;
+				g_the_status = 1;
 				return (NULL);
 			}
 			j++;
@@ -43,7 +43,7 @@ char	**jump_options(char **argv, int error)
 void	mini_norme_mini_cd(int error)
 {
 	ft_putendl_fd("42sh: cd: Too many arguments.", error);
-	the_status = 1;
+	g_the_status = 1;
 }
 
 void	help_saloupi_to_treat_cd2(t_env *list, int error)
@@ -52,7 +52,7 @@ void	help_saloupi_to_treat_cd2(t_env *list, int error)
 		ft_putendl_fd("42sh: cd: OLDPWD not set", error);
 	else
 		ft_putendl_fd("42sh: cd: no such file or directory", error);
-	the_status = 1;
+	g_the_status = 1;
 }
 
 void	mini_cd2(t_process *process, t_job *job)
@@ -60,7 +60,7 @@ void	mini_cd2(t_process *process, t_job *job)
 	char	*old;
 	t_env	*first;
 
-	first = shell->env;
+	first = g_shell->env;
 	while (first)
 	{
 		if (ft_strcmp(first->name, "OLDPWD") == 0)

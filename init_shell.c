@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:31:55 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:37:27 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:16:52 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ void	alloc_shell(void)
 {
 	int i;
 
-	shell = (t_shell *)malloc(sizeof(t_shell));
+	g_shell = (t_shell *)malloc(sizeof(t_shell));
 	i = 0;
 	while (i < NR_J)
-		shell->job[i++] = NULL;
-	STATUS_STRING = (char **)malloc(sizeof(char *) * 6);
-	STATUS_STRING[5] = NULL;
-	STATUS_STRING[0] = ft_strdup("running");
-	STATUS_STRING[1] = ft_strdup("done");
-	STATUS_STRING[2] = ft_strdup("suspended");
-	STATUS_STRING[3] = ft_strdup("continued");
-	STATUS_STRING[4] = ft_strdup("terminated");
+		g_shell->job[i++] = NULL;
+	g_status_string = (char **)malloc(sizeof(char *) * 6);
+	g_status_string[5] = NULL;
+	g_status_string[0] = ft_strdup("running");
+	g_status_string[1] = ft_strdup("done");
+	g_status_string[2] = ft_strdup("suspended");
+	g_status_string[3] = ft_strdup("continued");
+	g_status_string[4] = ft_strdup("terminated");
 }
 
 void	init_shell(void)
@@ -39,12 +39,12 @@ void	init_shell(void)
 	pid = getpid();
 	setpgid(pid, pid);
 	tcsetpgrp(0, pid);
-	semicolon = NULL;
-	the_status = 0;
-	the_jobs = NULL;
-	or_or = NULL;
-	and_and = NULL;
-	if_exit = NULL;
+	g_semicolon = NULL;
+	g_the_status = 0;
+	g_the_jobs = NULL;
+	g_or_or = NULL;
+	g_and_and = NULL;
+	g_if_exit = NULL;
 	alloc_shell();
 }
 
@@ -56,7 +56,7 @@ void	free_jobs(void)
 	i = 1;
 	while (i < NR_J)
 	{
-		j = shell->job[i];
+		j = g_shell->job[i];
 		if (j != NULL)
 			remove_job(i);
 		i++;
@@ -83,11 +83,11 @@ void	help_to_exit(t_job *job)
 {
 	free_job(job);
 	free_jobs();
-	free_env_list(shell->env);
-	free_2d(STATUS_STRING);
-	free(shell);
-	free_2d(semicolon);
-	free_2d(and_and);
-	free_2d(or_or);
-	free_2d(the_jobs);
+	free_env_list(g_shell->env);
+	free_2d(g_status_string);
+	free(g_shell);
+	free_2d(g_semicolon);
+	free_2d(g_and_and);
+	free_2d(g_or_or);
+	free_2d(g_the_jobs);
 }

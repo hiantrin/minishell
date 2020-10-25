@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_cd_v2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:46:06 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:46:08 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ void	norme_to_cd(t_process *process, t_job *job, char **argv, int i)
 {
 	add_pwd(process, job, "OLDPWD");
 	if ((i == 0 || ft_strcmp(argv[1], "~") == 0)
-		&& access(search_home(shell->env), F_OK) == 0)
-		chdir(search_home(shell->env));
+		&& access(search_home(g_shell->env), F_OK) == 0)
+		chdir(search_home(g_shell->env));
 	if (access(argv[1], F_OK) == 0)
 		chdir(argv[1]);
 	add_pwd(process, job, "PWD");
-	the_status = 0;
+	g_the_status = 0;
 }

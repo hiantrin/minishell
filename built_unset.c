@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_unset.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 03:25:57 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 03:25:59 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	help_unsetenv(char *command)
 	t_env	*next;
 	t_env	*head;
 
-	head = shell->env;
+	head = g_shell->env;
 	str = NULL;
 	while (head && ft_strcmp(command, head->name) != 0)
 	{
@@ -53,7 +53,7 @@ void	help_unsetenv(char *command)
 		if (str != NULL)
 			str->next = next;
 		else
-			shell->env = next;
+			g_shell->env = next;
 	}
 }
 
@@ -70,10 +70,10 @@ void	to_unset(t_process *process, t_job *job)
 			ft_putstr_fd("minishell: unsetenv: `", process->errorput);
 			ft_putstr_fd(process->argv[i], process->errorput);
 			ft_putendl_fd("': not a valid identifier", process->errorput);
-			the_status = 1;
+			g_the_status = 1;
 		}
 		else if (job->mode == FORE &&
-			(new = check_env(process->argv[i], shell->env)) != NULL)
+			(new = check_env(process->argv[i], g_shell->env)) != NULL)
 		{
 			free(new);
 			help_unsetenv(process->argv[i]);

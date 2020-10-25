@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:53:03 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/19 01:17:53 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		mini_type1(char *str, t_process *process)
 	{
 		ft_putstr_fd(str, process->output);
 		ft_putendl_fd(" is a shell builtin", process->output);
-		the_status = 0;
+		g_the_status = 0;
 		return (1);
 	}
 	return (0);
@@ -57,7 +57,7 @@ int		mini_type1v2(char *str, t_process *process)
 	{
 		ft_putstr_fd(str, process->output);
 		ft_putendl_fd(" is a shell builtin", process->output);
-		the_status = 0;
+		g_the_status = 0;
 		return (1);
 	}
 	return (0);
@@ -79,7 +79,7 @@ int		mini_type2(char *str, t_process *process)
 	{
 		ft_putstr_fd(str, process->output);
 		ft_putendl_fd(" is a shell keyword", process->output);
-		the_status = 0;
+		g_the_status = 0;
 		return (1);
 	}
 	return (0);
@@ -101,7 +101,7 @@ int		mini_type3(char *str, t_env *list, t_process *process)
 		ft_putstr_fd(" is ", process->output);
 		ft_putendl_fd(path, process->output);
 		free(path);
-		the_status = 0;
+		g_the_status = 0;
 		return (1);
 	}
 	return (0);
@@ -123,7 +123,7 @@ void	to_type(t_process *process)
 		else if (mini_type2(process->argv[i], process) == 1)
 		{
 		}
-		else if (mini_type3(process->argv[i], shell->env, process) == 1)
+		else if (mini_type3(process->argv[i], g_shell->env, process) == 1)
 		{
 		}
 		else
@@ -131,7 +131,7 @@ void	to_type(t_process *process)
 			ft_putstr_fd("42sh: type: ", process->errorput);
 			ft_putstr_fd(process->argv[i], process->errorput);
 			ft_putendl_fd(": not found", process->errorput);
-			the_status = 1;
+			g_the_status = 1;
 		}
 	}
 }

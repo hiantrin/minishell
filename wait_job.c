@@ -6,7 +6,7 @@
 /*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 05:36:53 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 05:43:38 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 11:02:40 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	set_process_status(pid_t pid, int status)
 	i = 1;
 	while (i < NR_J)
 	{
-		if (shell->job[i])
+		if (g_shell->job[i])
 		{
-			process = shell->job[i]->process;
+			process = g_shell->job[i]->process;
 			while (process)
 			{
 				if (process->pid == pid)
@@ -41,7 +41,7 @@ void	print_job_status(int id)
 {
 	t_process	*process;
 
-	process = shell->job[id]->process;
+	process = g_shell->job[id]->process;
 	ft_putchar('[');
 	ft_putnbr(id);
 	ft_putchar(']');
@@ -50,8 +50,8 @@ void	print_job_status(int id)
 		ft_putchar('\t');
 		ft_putnbr(process->pid);
 		ft_putchar('\t');
-		if (shell->job[id]->process->signal == NULL)
-			ft_putstr(STATUS_STRING[process->status]);
+		if (g_shell->job[id]->process->signal == NULL)
+			ft_putstr(g_status_string[process->status]);
 		else
 			ft_putstr(process->signal);
 		ft_putchar('\t');
@@ -70,7 +70,7 @@ int		process_counter(int id)
 	int			count;
 
 	count = 0;
-	p = shell->job[id]->process;
+	p = g_shell->job[id]->process;
 	while (p)
 	{
 		count++;
@@ -89,7 +89,7 @@ int		wait_for_job(int id, int wait_count)
 	process_count = process_counter(id);
 	while (wait_count < process_count)
 	{
-		wait_pid = waitpid(-shell->job[id]->pgid, &status, WUNTRACED);
+		wait_pid = waitpid(-g_shell->job[id]->pgid, &status, WUNTRACED);
 		if (WIFEXITED(status))
 			set_process_status(wait_pid, STATUS_DONE);
 		else if (WIFSIGNALED(status))
@@ -97,7 +97,7 @@ int		wait_for_job(int id, int wait_count)
 		else if (WSTOPSIG(status))
 		{
 			status = -1;
-			the_status = status;
+			g_the_status = status;
 			set_process_status(wait_pid, STATUS_SUSPENDED);
 			if (wait_count == (process_count - 1))
 				print_job_status(id);
@@ -113,7 +113,7 @@ void	remove_job(int id)
 	t_process	*process;
 	t_process	*tmp;
 
-	job = shell->job[id];
+	job = g_shell->job[id];
 	process = job->process;
 	while (process)
 	{
@@ -125,5 +125,5 @@ void	remove_job(int id)
 	}
 	free(job->command);
 	free(job);
-	shell->job[id] = NULL;
+	g_shell->job[id] = NULL;
 }

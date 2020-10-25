@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_job.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 04:50:43 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/23 04:50:44 by hiantrin         ###   ########.fr       */
+/*   Updated: 2020/10/25 10:51:49 by hiantrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			get_next_job_id(void)
 	i = 1;
 	while (i < NR_J)
 	{
-		if (shell->job[i] == NULL)
+		if (g_shell->job[i] == NULL)
 			return (i);
 		i++;
 	}
@@ -87,6 +87,6 @@ int			insert_job(t_job *job)
 
 	id = get_next_job_id();
 	job->id = id;
-	shell->job[id] = job;
+	g_shell->job[id] = job;
 	return (id);
 }
