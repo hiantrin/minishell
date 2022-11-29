@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: szakaria <szakaria@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/04 01:52:20 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/10/23 23:56:40 by szakaria         ###   ########.fr       */
+/*   Created: 2021/11/09 13:28:54 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/28 19:32:40 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@ int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')
 		return (c - 32);
-	return (10);
+	else
+		return (c);
 }

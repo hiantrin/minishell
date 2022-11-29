@@ -3,47 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/23 04:53:13 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
+/*   Created: 2022/11/01 22:49:07 by mouarsas          #+#    #+#             */
+/*   Updated: 2022/11/06 20:48:46 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "minishell.h"
 
-int		redirect_with_fd(char *line, int *i)
+int	redirect(t_pi *pi, char **line, int *status)
 {
-	int		j;
-	char	*str;
-	int		b;
+	int		i;
+	char	c;
 
-	j = i[0];
-	j--;
-	while (j != -1 && line[j] && line[j] != ' ' &&
-		line[j] != '\t' && line[j] != '\n')
-		j--;
-	j++;
-	if (i[0] == j)
-		return (-1);
-	else
-		str = ft_strsub(line, j, i[0] - j);
-	b = -1;
-	while (str[++b])
-		if (str[b] < 48 || str[b] > 57)
+	i = 0;
+	while (line[0][i])
+	{
+		c = line[0][i];
+		if (c == 34 || c == 39)
 		{
-			free(str);
-			return (-1);
+			i++;
+			while (line[0][i] && line[0][i] != c)
+				i++;
 		}
-	i[0] = j;
-	j = atoi(str);
-	free(str);
-	return (j);
+		else if (line[0][i] == '>' || line[0][i] == '<')
+		{
+			if (help_to_parse(&line[0], i, &(pi->pipe), &status[0]) == 0)
+				return (0);
+			i = 0;
+		}
+		if (line[0][i] != '\0')
+			i++;
+	}
+	return (1);
 }
 
-int		type_pipe(char *line, int i)
+char	*take_file(char **file, int *j)
 {
-	int type;
+	int		i;
+	int		b;
+	char	*line;
+
+	while (file[0][*j] == ' ' || file[0][*j] == '\t' || file[0][*j] == '\n')
+		(*j)++;
+	i = *j;
+	if (file[0][i] == '&')
+		(*j) = help_to_take_file(*j, &file[0]);
+	else
+	{
+		while (file[0][*j] != '\0' && file[0][*j] != ' ' && file[0][*j] != '\t'
+			&& file[0][*j] != '\n' && file[0][*j] != '<' && file[0][*j] != '>')
+			(*j)++;
+	}
+	b = (*j - i);
+	line = ft_substr(file[0], i, b);
+	return (line);
+}
+
+void	join_with_anything(char **line, int a, int i)
+{
+	char	*first;
+	char	*str;
+
+	first = ft_substr(*line, 0, i);
+	str = ft_strdup(&line[0][a]);
+	free(*line);
+	line[0] = ft_strjoin(first, str);
+	free(first);
+	free(str);
+}
+
+int	type_pipe(char *line, int i)
+{
+	int	type;
 
 	if (line[i] == '>')
 		type = 0;
@@ -57,70 +90,26 @@ int		type_pipe(char *line, int i)
 	return (type);
 }
 
-int		check_if_is_num(char *file)
-{
-	int i;
-
-	i = 0;
-	while (file[i])
-	{
-		if (file[i] < 48 || file[i] > 57)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int		help_to_parse(char **line, int *j, t_process **process)
+int	help_to_parse(char **line, int j, int ***pipe, int *status)
 {
 	int		out;
 	int		type;
 	char	*file;
 	int		a;
 
-	a = j[0];
-	type = type_pipe(line[0], j[0]);
-	out = redirect_with_fd(line[0], &(j[0]));
+	a = j;
+	type = type_pipe(line[0], j);
+	out = redirect_with_fd(line[0], &j);
 	while (line[0][a] == '<' || line[0][a] == '>')
 		a++;
 	file = take_file(&line[0], &a);
-	file = filter_for_file(file, g_shell->env);
-	if (type == 4 && check_if_is_num(file) == 1 &&
+	if (type == 4 && check_if_is_num(file) == 1 && \
 		(line[0][a] == '<' || line[0][a] == '>'))
-		return (print_error_num(file, process[0]->errorput));
-	if (parse_to_two(file, out, type, &process[0]) == 0)
-	{
-		g_the_status = 1;
+		return (print_error_num(file, pipe[0][2], &status[0]));
+	status[0] = parse_to_two(file, out, type, &pipe[0]);
+	if (status[0] == 0)
 		return (0);
-	}
-	join_with_anything(&line[0], a, j[0]);
+	join_with_anything(&line[0], a, j);
 	free(file);
-	return (1);
-}
-
-int		redirect(t_process **process)
-{
-	int		i;
-	char	c;
-
-	i = 0;
-	while (process[0]->command[i])
-	{
-		c = process[0]->command[i];
-		if (c == 34 || c == 39)
-		{
-			i++;
-			while (process[0]->command[i] && process[0]->command[i] != c)
-				i++;
-		}
-		else if (process[0]->command[i] == '>' || process[0]->command[i] == '<')
-		{
-			if (help_to_parse(&process[0]->command, &i, &process[0]) == 0)
-				return (0);
-			i = 0;
-		}
-		if (process[0]->command[i] != '\0')
-			i++;
-	}
 	return (1);
 }

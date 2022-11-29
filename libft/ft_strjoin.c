@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 06:13:32 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/12 16:02:33 by zael-mab         ###   ########.fr       */
+/*   Created: 2021/11/14 02:18:42 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/28 01:17:59 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	t;
-	char	*s0;
+	int		len;
+	char	*str;
+	int		i;
 
 	i = 0;
-	t = 0;
-	if (s1 && s2)
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = (char *)malloc(sizeof(char) * len);
+	if (!str)
+		return (0);
+	while (*s1)
 	{
-		if ((s0 = ft_strnew(ft_strlen(s1) + ft_strlen(s2))))
-		{
-			while (s1[i])
-			{
-				s0[i] = s1[i];
-				i++;
-			}
-			while (s2[t])
-			{
-				s0[i] = s2[t];
-				t++;
-				i++;
-			}
-			return (s0);
-		}
+		str[i] = *s1;
+		s1++;
+		i++;
 	}
-	return (NULL);
+	while (*s2)
+	{
+		str[i] = *s2;
+		s2++;
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

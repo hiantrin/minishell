@@ -3,29 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/08 03:46:53 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/19 03:12:07 by zael-mab         ###   ########.fr       */
+/*   Created: 2021/11/16 23:05:41 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/27 15:02:09 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s)
+static int	searchin_string(char const *set, char c)
 {
-	int i;
-	int j;
+	size_t	i;
 
 	i = 0;
-	if (s)
+	while (i <= ft_strlen(set))
 	{
-		j = ft_strlen(s) - 1;
-		while (s[i] && (s[i] == ' ' || s[i] == '\n' || s[i] == '\t'))
-			i++;
-		while (j > i && (s[j] == ' ' || s[j] == '\n' || s[j] == '\t'))
-			j--;
-		return (ft_strsub(s, i, j - i + 1));
+		if (set[i] == c)
+			return (1);
+		i++;
 	}
-	return (NULL);
+	return (0);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	if (!s1 || !set)
+		return (NULL);
+	i = ft_strlen(s1);
+	while (s1[j] && searchin_string(set, s1[j]))
+		j++;
+	while (i && searchin_string(set, s1[i]))
+		i--;
+	if (i <= 0)
+		return (ft_strdup(""));
+	return (ft_substr(s1, j, i - j + 1));
 }

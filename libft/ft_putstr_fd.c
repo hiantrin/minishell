@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/06 05:58:31 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/12 16:11:42 by zael-mab         ###   ########.fr       */
+/*   Created: 2021/11/12 03:17:29 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/12 20:22:31 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
-	size_t j;
+	unsigned int	i;
 
-	j = 0;
-	if (s)
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
 	{
-		while (s[j])
-			write(fd, &s[j++], 1);
+		ft_putchar_fd(s[i], fd);
+		i++;
 	}
 }

@@ -1,64 +1,81 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+         #
+#    By: mouarsas <mouarsas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/06/19 17:15:33 by szakaria          #+#    #+#              #
-#    Updated: 2020/10/23 05:35:09 by hiantrin         ###   ########.fr        #
+#    Created: 2022/11/01 20:12:40 by mouarsas          #+#    #+#              #
+#    Updated: 2022/11/09 22:24:52 by mouarsas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 42sh
-
-CFLAGS = -Wall -Wextra -Werror
-
-_lCYAN = \x1b[96m
-_lYELLOW = \x1b[93m
-_lGREEN = \x1b[92m
-_lBLUE = \x1b[94m
-_RED = \x1b[31m
-_BOLD = \x1b[1m
-_END = \x1b[0m
+NAME = minishell
 
 LIB = libft/libft.a
-LIB2 = GTN/get_next_line.c
 
-SRC = minishell.c GTN/get_next_line.c trait.c execve.c list.c \
-		execve_help.c init_shell.c make_job.c wait_job.c jobs.c \
-		help.c all_command_jobs.c help_command_jobs.c help_command_jobs_v2.c \
-		help_v2.c  checker.c checker_v2.c checker_v3.c checker_v4.c \
-		parsing.c help_parsing.c help_parsing_v2.c help_parsing_v3.c \
-		trait_pipe.c redirect.c redirect_v2.c replace_with_env.c make_home.c \
-		slash_quote.c redirect_help.c redirect_v3.c parse_the_redirect.c \
-		redirect_help_v2.c help_trait_and.c get_path.c filter_command.c \
-		built_back_fore.c built_env_echo.c mini_type.c built_unset.c \
-		built_export.c built_cd.c help_cd.c help_cd_v2.c variables.c \
-		move_variables.c help_variable.c help_v3.c signals.c \
-		trait_slash_quote.c help_v4.c help_slash_quote.c
-		
-C       = gcc
-OBJ = $(SRC:.c=.o)
-DEP = sh.h
+SRCS = 	minishell.c\
+		mini1.c\
+		myshell.c\
+		mini2.c\
+		make_home.c \
+		replace_with_env.c\
+		getpath.c\
+		create_env.c \
+		help_all.c\
+		and_and.c\
+		one_for_all.c\
+		one_for_all2.c\
+		mini_stock.c\
+		mini_stock1.c\
+		help_redirections.c\
+		help.c\
+		mini_help.c\
+		parsing_the_re.c\
+		pipe_help.c\
+		pipe.c\
+		qoute_slash.c\
+		redirect.c\
+		strsplit.c\
+		trait_and.c\
+		trait_the_and.c\
+		system.c\
+		mini_qoute.c\
+		builtins/cd.c\
+		builtins/cd_norm.c\
+		builtins/echo.c\
+		builtins/env.c\
+		builtins/exit.c\
+		builtins/export.c\
+		builtins/pwd.c\
+		builtins/unset.c\
+		help_to_norme.c\
 
-all : $(NAME)
 
-$(NAME) : LIB $(OBJ) 
-		@$(C) $(CFLAGS)  $(OBJ) -o $(NAME) libft/libft.a
+CFLAGS := -Wall -Wextra -Werror
+LFLAGS="-L/Users/mouarsas/.brew/opt/readline/lib"
+IFLAGS="-I/Users/mouarsas/.brew/opt/readline/include"
 
-LIB:
-		@make -C libft
+CC = cc
+OBJS :=$(SRCS:.c=.o)
 
-%.o	: %.c $(DEP)
-		$(C) $(CFLAGS)  -o $@ -c $<
+all: $(NAME)
 
-clean	:
-		@make clean -C libft
-		@rm -f $(OBJ)
+$(NAME): $(LIB) $(OBJS) 
+	@$(CC) $(CFLAGS) $^ -o $@ libft/libft.a $(FLAGS) -lreadline -lncurses $(LFLAGS)
 
-fclean	: clean
-		@make fclean -C libft
-		@rm -f $(NAME)
+%.o: %.c minishell.h 
+	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-re	: fclean all
+$(LIB):
+	@make -C libft
+
+clean:
+	@make clean -C libft
+	@rm -f $(OBJS)
+
+fclean: clean
+	@make fclean -C libft
+	@rm -f $(NAME)
+
+re: fclean all

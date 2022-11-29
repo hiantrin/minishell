@@ -3,107 +3,117 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/23 03:45:49 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/25 11:01:27 by hiantrin         ###   ########.fr       */
+/*   Created: 2022/11/01 22:30:13 by mouarsas          #+#    #+#             */
+/*   Updated: 2022/11/02 22:43:42 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "minishell.h"
 
-int		get_command_type(char *command)
+int	check_line(char *line)
 {
-	if (ft_strcmp(command, "exit") == 0)
-		return (COMMAND_EXIT);
-	else if (strcmp(command, "cd") == 0)
-		return (COMMAND_CD);
-	else if (strcmp(command, "jobs") == 0)
-		return (COMMAND_JOBS);
-	else if (strcmp(command, "fg") == 0)
-		return (COMMAND_FG);
-	else if (strcmp(command, "bg") == 0)
-		return (COMMAND_BG);
-	else if (strcmp(command, "export") == 0)
-		return (COMMAND_EXPORT);
-	else if (strcmp(command, "unset") == 0)
-		return (COMMAND_UNSET);
-	else if (strcmp(command, "set") == 0)
-		return (COMMAND_SET);
-	else if (strcmp(command, "echo") == 0)
-		return (COMMAND_ECHO);
-	else if (strcmp(command, "type") == 0)
-		return (COMMAND_TYPE);
-	else if (strcmp(command, "env") == 0)
-		return (COMMAND_ENV);
-	else
-		return (COMMAND_EXTERNAL);
-}
-
-int		to_exit(t_process *process, t_job *j)
-{
-	int		i;
-	int		e;
+	int	i;
 
 	i = 0;
-	while (process->argv[i])
-		i++;
-	if (i < 3 && j->mode == FORE && process->next == NULL)
+	while (line[i])
 	{
-		e = 0;
-		if (i == 2)
-			e = print_exit_error(process->argv[1]);
-		if (g_if_exit == NULL)
-		{
-			help_to_exit(j);
-			exit(e);
-		}
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			return (1);
+		i++;
 	}
-	else if (i > 2)
-		ft_putendl_fd("exit: too many arguments", process->errorput);
-	g_the_status = 1;
-	return (-1);
-}
-
-int		trait_built(t_job *j, t_process *process)
-{
-	if (process->type == COMMAND_EXIT)
-		to_exit(process, j);
-	else if (process->type == COMMAND_JOBS)
-		to_jobs(j);
-	else if (process->type == COMMAND_FG)
-		to_fg(process, j);
-	else if (process->type == COMMAND_BG)
-		to_bg(process, j);
-	else if (process->type == COMMAND_ENV)
-		to_env(process);
-	else if (process->type == COMMAND_TYPE)
-		to_type(process);
-	else if (process->type == COMMAND_ECHO)
-		to_echo(process);
-	else if (process->type == COMMAND_SET)
-		to_set(process);
-	else if (process->type == COMMAND_UNSET)
-		to_unset(process, j);
-	else if (process->type == COMMAND_EXPORT)
-		to_export(process, j, process->argv);
-	else if (process->type == COMMAND_CD)
-		to_cd(process, j);
 	return (0);
 }
 
-int		count_replace_env(char *line, int i, char c)
+char	**split_command(char *line, char s)
 {
-	i++;
-	while (line[i] && line[i] != c)
-		i++;
-	return (i);
+	char	**command;
+	int		count;
+
+	count = count_command(line, s);
+	command = (char **)malloc(sizeof(char *) * count + 1);
+	command[count] = NULL;
+	help_bonus(line, command, s, count);
+	return (command);
 }
 
-void	mini_mini_norme(char **line, char *str, int a, int i)
+void	help_bonus(char *line, char **command, char s, int i)
 {
-	if (str != NULL)
-		join_with_something(&line[0], str, a, i);
-	else
-		join_with_anything2(&line[0], str, a, i);
+	char	c;
+	int		j;
+	int		a;
+
+	i = 0;
+	a = 0;
+	j = 0;
+	while (line[i])
+	{
+		c = line[i];
+		if (c == 34 || c == 39)
+		{
+			i++;
+			while (line[i] && line[i] != c)
+				i++;
+		}
+		else if (c == s)
+		{
+			command[a++] = ft_substr(line, j, i - j);
+			j = i + 1;
+		}
+		if (line[i] != '\0')
+			i++;
+	}
+	command[a] = ft_substr(line, j, i - j);
+}
+
+int	count_command(char *line, char s)
+{
+	int		i;
+	int		count;
+	char	c;
+
+	count = 1;
+	i = 0;
+	while (line[i])
+	{
+		c = line[i];
+		if (c == 34 || c == 39)
+		{
+			i++;
+			while (line[i] != c)
+				i++;
+		}
+		else if (c == s)
+			count++;
+		if (line[i] != '\0')
+			i++;
+	}
+	return (count);
+}
+
+char	**mini_filter_h(char **str, char **command)
+{
+	int			i;
+	t_env_list	*env;
+	char		**tab;
+	t_env_list	*next;
+
+	i = 0;
+	env = create_env(command);
+	free(command);
+	str[0] = replace_with_env(str[0], env, i);
+	str[0] = replace_home(str[0], env);
+	while (env != NULL)
+	{
+		free(env->name);
+		free(env->environ);
+		next = env->next;
+		free(env);
+		env = next;
+	}
+	if (search_no_espace(str[0]) == 0)
+		return (NULL);
+	tab = ft_strsplito(str[0]);
+	return (tab);
 }

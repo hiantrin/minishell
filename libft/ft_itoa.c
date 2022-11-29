@@ -1,52 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoa.c                                          :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/12 09:16:45 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/19 03:23:34 by zael-mab         ###   ########.fr       */
+/*   Created: 2021/11/21 17:51:08 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/28 19:10:13 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_x(int nb)
+static size_t	count(long nb)
 {
-	size_t	j;
+	int	i;
 
-	j = 1;
-	while (nb / 10)
+	i = 0;
+	if (nb <= 0)
 	{
-		nb = nb / 10;
-		j++;
+		nb *= -1;
+		i++;
 	}
-	return (j);
+	while (nb != '\0')
+	{
+		i++;
+		nb /= 10;
+	}
+	return (i);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-	char	*str;
-	int		y;
-	int		z;
-	long	nb;
+	size_t		len;
+	char		*str;
+	long		nb;
 
 	nb = n;
-	y = ft_x(n);
-	z = (n < 0 ? 1 : 0);
-	if (!(str = ft_strnew(y + z)))
-		return (NULL);
-	if (z)
+	len = count(n);
+	str = (char *) malloc(sizeof (char) * (len + 1));
+	if (!str)
+		return (0);
+	str[len] = '\0';
+	if (nb < 0)
+		nb *= -1;
+	while (len--)
 	{
-		nb = (int long)n * -1;
+		str[len] = (nb % 10) + 48;
+		nb /= 10;
+	}
+	if (n < 0)
 		str[0] = '-';
-	}
-	while (y > 0)
-	{
-		str[y + z - 1] = nb % 10 + 48;
-		nb = nb / 10;
-		y--;
-	}
 	return (str);
 }

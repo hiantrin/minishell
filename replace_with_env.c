@@ -3,51 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   replace_with_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiantrin <hiantrin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/23 04:56:00 by hiantrin          #+#    #+#             */
-/*   Updated: 2020/10/25 11:00:33 by hiantrin         ###   ########.fr       */
+/*   Created: 2022/11/01 22:52:31 by mouarsas          #+#    #+#             */
+/*   Updated: 2022/11/06 20:40:03 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "minishell.h"
 
-char	*check_env(char *str, t_env *env)
+char	*replace_with_env(char *line, t_env_list *env, int b)
 {
-	if (ft_strcmp(str, "?") == 0)
-		return (ft_itoa(g_the_status));
-	while (env)
+	int		i;
+	char	*str;
+	int		a;
+
+	i = 0;
+	b = 0;
+	while (line[i])
 	{
-		if (ft_strcmp(str, env->name) == 0)
-			return (ft_strdup(env->environ));
+		if (line[i] == '$' && (i == 0 || (line[i - 1] != 92 && \
+			line[i - 1] != 39)))
+		{
+			a = i + 1;
+			str = help_replace_env(&a, line, i, env);
+			if (str != NULL)
+				b = ft_strlen(str);
+			if (str != NULL)
+				join_with_something(&line, str, a, i);
+			else
+				join_with_anything2(&line, str, a, i);
+			i = i + b;
+		}
 		else
-			env = env->next;
+			i++;
 	}
-	return (NULL);
+	return (line);
 }
 
-char	*help_replace_env(int *a, char *line, int i, t_env *env)
+char	*help_replace_env(int *a, char *line, int i, t_env_list *env)
 {
 	char	*new;
 	char	*str;
 
-	if (line[*a] == '{')
-	{
-		while (line[*a] != '}')
-			(*a)++;
-		new = ft_strsub(line, i + 2, *a - (i + 2));
-		(*a)++;
-	}
-	else
-	{
-		while (line[*a] == '_' || (line[*a] >= 'a' && line[*a] <= 'z') ||
-			(line[*a] >= 'A' && line[*a] <= 'Z') ||
+	while (line[*a] == '_' || (line[*a] >= 'a' && line[*a] <= 'z') || \
+			(line[*a] >= 'A' && line[*a] <= 'Z') || \
 			(line[*a] >= '0' && line[*a] <= '9'))
-			(*a)++;
-		new = ft_strsub(line, i + 1, *a - (i + 1));
-	}
+		(*a)++;
+	new = ft_substr(line, i + 1, *a - (i + 1));
 	if (new[0] == '\0')
-		str = ft_strsub(line, i, *a - i);
+		str = ft_substr(line, i, *a - i);
 	else
 		str = check_env(new, env);
 	free(new);
@@ -59,7 +64,7 @@ void	join_with_something(char **line, char *str, int a, int i)
 	char	*first;
 	char	*new;
 
-	first = ft_strsub(*line, 0, i);
+	first = ft_substr(*line, 0, i);
 	new = ft_strjoin(first, str);
 	free(first);
 	free(str);
@@ -74,7 +79,7 @@ void	join_with_anything2(char **line, char *str, int a, int i)
 {
 	char	*first;
 
-	first = ft_strsub(*line, 0, i);
+	first = ft_substr(*line, 0, i);
 	str = ft_strdup(&line[0][a]);
 	free(*line);
 	line[0] = ft_strjoin(first, str);
@@ -82,31 +87,14 @@ void	join_with_anything2(char **line, char *str, int a, int i)
 	free(str);
 }
 
-char	*replace_with_env(char *line, t_env *env, int b, int i)
+char	*check_env(char *str, t_env_list *env)
 {
-	char	*str;
-	int		a;
-	char	c;
-
-	b = 0;
-	while (line[i])
+	while (env)
 	{
-		c = line[i];
-		if (c == 39)
-			i = count_replace_env(line, i, c);
-		else if (c == 92)
-			i = i + 2;
-		else if (line[i] == '$')
-		{
-			a = i + 1;
-			str = help_replace_env(&a, line, i, env);
-			if (str != NULL)
-				b = ft_strlen(str);
-			mini_mini_norme(&line, str, a, i);
-			i = i + b;
-		}
-		else if (line[i] != '\0')
-			i++;
+		if (ft_strcmp(str, env->name) == 0)
+			return (ft_strdup(env->environ));
+		else
+			env = env->next;
 	}
-	return (line);
+	return (NULL);
 }

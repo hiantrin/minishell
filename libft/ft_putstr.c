@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/05 23:00:23 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/12 16:08:08 by zael-mab         ###   ########.fr       */
+/*   Created: 2022/11/01 23:17:33 by mouarsas          #+#    #+#             */
+/*   Updated: 2022/11/02 22:45:01 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putstr(char const *s)
 {
-	size_t j;
+	size_t	j;
 
 	j = 0;
 	if (s)

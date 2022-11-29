@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/02 02:05:25 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/12 14:39:07 by zael-mab         ###   ########.fr       */
+/*   Created: 2022/11/01 23:05:43 by mouarsas          #+#    #+#             */
+/*   Updated: 2022/11/02 22:45:12 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while ((unsigned char)s1[i] || (unsigned char)s2[i])

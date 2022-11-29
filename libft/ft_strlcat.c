@@ -3,34 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/01 07:14:02 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/21 23:41:31 by zael-mab         ###   ########.fr       */
+/*   Created: 2021/11/13 19:20:41 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/28 01:19:38 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	size_t ld;
-	size_t ls;
-	size_t ln;
+	size_t	i;
+	size_t	srclen;
+	size_t	dstlen;
 
-	ln = 0;
-	ld = ft_strlen(dst);
-	ls = ft_strlen(src);
-	if (ld >= size)
-		ls = ls + size;
+	i = 0;
+	dstlen = ft_strlen(dst);
+	srclen = ft_strlen(src);
+	if (!dstsize)
+		return (ft_strlen(src));
+	if (dstsize <= dstlen)
+		srclen += dstsize;
 	else
-		ls = ls + ld;
-	while (src[ln] && ld + 1 < size)
+		srclen += dstlen;
+	while (src[i] && dstlen < dstsize - 1)
 	{
-		dst[ld] = src[ln];
-		ln++;
-		ld++;
+		dst[dstlen] = src[i];
+		dstlen++;
+		i++;
 	}
-	dst[ld] = '\0';
-	return (ls);
+	dst[dstlen] = '\0';
+	return (srclen);
 }

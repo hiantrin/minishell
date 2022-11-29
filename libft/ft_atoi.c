@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zael-mab <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouarsas <mouarsas@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/03 22:27:59 by zael-mab          #+#    #+#             */
-/*   Updated: 2019/04/12 14:40:45 by zael-mab         ###   ########.fr       */
+/*   Created: 2021/11/09 13:39:07 by mouarsas          #+#    #+#             */
+/*   Updated: 2021/11/28 00:46:48 by mouarsas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,29 @@
 
 int	ft_atoi(const char *str)
 {
-	int a;
-	int b;
-	int c;
+	int		i;
+	int		sig;
+	long	res;
 
-	a = 0;
-	b = 0;
-	c = 0;
-	while ((str[a] >= 9 && str[a] <= 13) || str[a] == 32)
-		a++;
-	if (str[a] == '-')
-		c = 1;
-	if (str[a] == '+' || str[a] == '-')
-		a++;
-	while (str[a] >= '0' && str[a] <= '9' && str[a] != '\0')
+	i = 0;
+	sig = 1;
+	res = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	while (str[i] == '+' || str[i] == '-')
 	{
-		b = b * 10 + (str[a] - 48);
-		a++;
+		if (str[i + 1] == '-' || str[i + 1] == '+')
+			return (0);
+		if (str[i] == '-')
+			sig *= -1;
+		i++;
 	}
-	if (c == 1)
-		return (-b);
-	else
-		return (b);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res *= 10;
+		res += str[i] - '0';
+		i++;
+	}
+	res = res * sig;
+	return (res);
 }
